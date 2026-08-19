@@ -304,14 +304,16 @@ button{font:inherit;color:inherit;}
 .card .kv{font-family:var(--type);font-size:10.5px;line-height:1.7;color:var(--ink-70);}
 .card .kv b{color:var(--ink);}
 .card p{margin:0;padding:0 12px 10px;font-size:14.5px;line-height:1.45;font-style:italic;}
-.card .foot{border-top:1px solid var(--ink-14);padding:6px 10px;
-  font-family:var(--narrow);font-size:10px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--ink-55);text-align:right;}
+.card .foot{border-top:1px solid var(--ink);padding:9px 10px;
+  font-family:var(--narrow);font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;background:var(--ink);color:var(--card);
+  display:flex;justify-content:space-between;align-items:center;}
+.card .foot .chev{animation:pulse 1.5s ease-in-out infinite;}
 .card.neg{background:var(--ink);color:var(--card);}
 .card.neg .bar{border-color:var(--card);}
 .card.neg .kv{color:rgba(224,220,204,.75);}
 .card.neg .kv b{color:var(--card);}
-.card.neg .foot{border-color:rgba(224,220,204,.25);color:rgba(224,220,204,.6);}
+.card.neg .foot{background:var(--card);color:var(--ink);border-color:var(--card);}
 .card .integ{font-family:var(--narrow);font-size:10px;letter-spacing:.1em;
   text-transform:uppercase;padding:0 12px 10px;}
 .card .integ i{font-style:normal;padding:1px 6px;box-shadow:inset 0 0 0 1px currentColor;}
@@ -334,12 +336,38 @@ button{font:inherit;color:inherit;}
   padding:9px var(--gut) 11px;border-top:1px solid var(--ink);
   background:var(--paper-hi);min-height:66px;position:relative;z-index:20;
 }
-#cad.block{cursor:pointer;}
-#cad.block::after{
-  content:"▸";position:absolute;right:var(--gut);bottom:8px;
-  font-size:12px;color:var(--red);animation:blink 1s steps(2) infinite;
-}
+#cad{transition:background .2s,box-shadow .2s;}
+#cad.block{cursor:pointer;box-shadow:inset 3px 0 0 var(--red);}
+#cad.block:hover{background:#DBD6C4;}
 @keyframes blink{50%{opacity:0}}
+
+/* rodape do caderno: progresso a esquerda, acao a direita */
+#cfoot{display:none;align-items:center;gap:10px;
+  margin-top:7px;padding-top:7px;border-top:1px solid var(--ink-14);}
+#cad.block #cfoot{display:flex;}
+#cdots{display:flex;gap:4px;align-items:center;}
+#cdots i{width:5px;height:5px;background:var(--ink-14);
+  border-radius:50%;transition:background .3s,transform .3s;}
+#cdots i.seen{background:var(--ink-30);}
+#cdots i.cur{background:var(--red);transform:scale(1.35);}
+#chint{font-family:var(--narrow);font-size:9.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-30);}
+#cgo{
+  margin-left:auto;border:0;cursor:pointer;
+  display:flex;align-items:center;gap:6px;
+  background:var(--ink);color:var(--paper);
+  padding:6px 11px;font-family:var(--narrow);font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;
+  transition:transform .12s,opacity .2s;
+}
+#cgo:hover{transform:translateY(-1px);}
+#cgo.ready{animation:pulse 1.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.58}}
+
+/* enquanto ela fala, botoes de acao da cena somem — nada morto na tela */
+#sheet.speaking .go{opacity:0;transform:translateY(5px);pointer-events:none;
+  transition:opacity .25s,transform .25s;}
+.go{transition:opacity .25s,transform .25s;}
 #face{flex:0 0 40px;}
 #face img{width:40px;height:auto;display:block;
   box-shadow:0 0 0 1px var(--ink);filter:grayscale(1) contrast(1.28);}
@@ -377,7 +405,7 @@ button{font:inherit;color:inherit;}
 .idmeta{flex:1;min-width:0;}
 .name{font-family:var(--narrow);font-size:29px;font-weight:700;line-height:.94;
   letter-spacing:-.005em;margin-bottom:6px;}
-.who{font-family:var(--type);font-size:11px;color:var(--ink-70);line-height:1.5;}
+.who{font-family:var(--type);font-size:10.5px;color:var(--ink-70);line-height:1.5;text-wrap:pretty;}
 .split{display:flex;border-bottom:1px solid var(--ink-14);}
 .split>div{flex:1;padding:11px 0;border-right:1px solid var(--ink-14);}
 .split>div:last-child{border-right:0;padding-left:11px;}
@@ -386,7 +414,7 @@ button{font:inherit;color:inherit;}
   font-variant-numeric:tabular-nums;}
 .dt{font-family:var(--type);font-size:15px;font-weight:700;}
 .form p{margin:0;font-size:15px;line-height:1.45;}
-.go{padding:16px var(--gut) 20px;display:flex;justify-content:flex-end;}
+.go{margin-top:auto;padding:16px var(--gut) 20px;display:flex;justify-content:flex-end;}
 .btn{
   background:var(--ink);color:var(--paper);border:0;
   padding:11px 20px;cursor:pointer;
@@ -528,7 +556,7 @@ button{font:inherit;color:inherit;}
 
       <!-- FASE 1 · PINCEL -->
       <div class="scene hidden" id="p1">
-        <div class="instr"><span>Escove — devagar</span>
+        <div class="instr"><span>Arraste para escovar — devagar</span>
           <span class="n"><b id="p1count">0</b>/3</span></div>
         <div class="play"><div class="board">
           <div id="p1under"></div><div id="p1grid"></div>
@@ -607,6 +635,11 @@ button{font:inherit;color:inherit;}
       <div id="ctext">
         <div id="cname">Aliane</div>
         <div id="cline"><span id="cur"></span></div>
+        <div id="cfoot">
+          <div id="cdots"></div>
+          <span id="chint">espaço</span>
+          <button id="cgo" type="button"><span id="cgoLab">continuar</span><span class="chev">▸</span></button>
+        </div>
       </div>
     </div>
 
@@ -782,10 +815,26 @@ const ART={
 };
 
 /* ====== CADERNO — note() nao trava, say() trava ====== */
-const cad=$("#cad"), cline=$("#cline"), cur=$("#cur"), stage=$("#stage");
-let queue=[],typing=false,after=null,timer=null,curText="",blocking=false;
+const cad=$("#cad"), cline=$("#cline"), cur=$("#cur"), stage=$("#stage"), sheet=$("#sheet");
+const cdots=$("#cdots"), cgo=$("#cgo"), cgoLab=$("#cgoLab"), chint=$("#chint");
+let queue=[],typing=false,after=null,timer=null,curText="",blocking=false,total=0,shown=0;
 const lock=v=>{stage.style.pointerEvents=v?"none":"";};
 function render(t,i){ cline.textContent=t.slice(0,i); cline.appendChild(cur); }
+
+/* a acao muda conforme o estado: enquanto digita da pra pular,
+   quando termina da pra continuar. a ultima linha diz o que vem depois. */
+function setGo(state){
+  if(state==="skip"){ cgoLab.textContent="pular"; cgo.classList.remove("ready");
+    chint.textContent="espaço"; }
+  else { cgoLab.textContent = state==="last" ? "começar" : "continuar";
+    cgo.classList.add("ready"); chint.textContent="espaço ou enter"; }
+}
+function drawDots(){
+  cdots.innerHTML="";
+  for(let i=0;i<total;i++){ const d=document.createElement("i");
+    if(i<shown-1) d.className="seen"; else if(i===shown-1) d.className="cur";
+    cdots.appendChild(d); }
+}
 function type(t,done){
   curText=t; typing=true; cur.classList.remove("on");
   if(REDUCED){ render(t,t.length); typing=false; cur.classList.add("on"); done&&done(); return; }
@@ -798,19 +847,33 @@ function type(t,done){
 function note(t){ if(blocking) return; clearInterval(timer); type(t); }
 /* beat de virada: trava a cena, avanca por clique */
 function say(lines,cb){
+  /* descarta fala ambiente em andamento: senao o primeiro clique do
+     dialogo e gasto completando a nota anterior e a fila nao anda */
+  clearInterval(timer); typing=false;
   blocking=true; queue=lines.slice(); after=cb||null;
-  cad.classList.add("block"); lock(true); step();
+  total=lines.length; shown=0;
+  cad.classList.add("block"); sheet.classList.add("speaking"); lock(true); step();
 }
 function step(){
-  if(typing){ clearInterval(timer); render(curText,curText.length); typing=false; cur.classList.add("on"); return; }
+  if(typing){ clearInterval(timer); render(curText,curText.length); typing=false;
+    cur.classList.add("on"); setGo(queue.length?"next":"last"); return; }
   if(!queue.length){
-    blocking=false; cad.classList.remove("block"); lock(false);
+    blocking=false; cad.classList.remove("block"); sheet.classList.remove("speaking");
+    cgo.classList.remove("ready"); lock(false);
     const f=after; after=null; f&&f(); return;
   }
-  type(queue.shift());
+  shown++; drawDots(); setGo("skip");
+  type(queue.shift(), ()=>setGo(queue.length?"next":"last"));
 }
 cad.addEventListener("click",()=>{ if(blocking) step(); });
-addEventListener("keydown",e=>{ if(blocking&&(e.key===" "||e.key==="Enter")){e.preventDefault();step();} });
+cgo.addEventListener("click",e=>{ e.stopPropagation(); if(blocking) step(); });
+addEventListener("keydown",e=>{
+  if(!blocking) return;
+  if(e.key===" "||e.key==="Enter"){
+    if(document.activeElement===cgo) return;   /* o botao ja trata a tecla */
+    e.preventDefault(); step();
+  }
+});
 
 /* ====== ETIQUETA ====== */
 const cardwrap=$("#cardwrap");
@@ -827,7 +890,7 @@ function showCard(o,cb){
       </div>
     </div>
     <p>${o.texto}</p>${integ}
-    <div class="foot">Toque para arquivar ▸</div>
+    <div class="foot"><span>Arquivar no registro</span><span class="chev">▸</span></div>
   </div>`;
   cardwrap.classList.remove("hidden"); lock(true);
   const close=()=>{cardwrap.classList.add("hidden");cardwrap.removeEventListener("click",close);
