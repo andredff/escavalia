@@ -1,3 +1,10 @@
 .vercel
 .DS_Store
 node_modules
+
+# fontes de audio pesadas — so o naise.m4a comprimido vai pro deploy
+naise.mp3
+naise.zip
+naise/
+Record*.mp3
+*.wav

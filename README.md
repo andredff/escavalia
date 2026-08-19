@@ -8,9 +8,29 @@
 
 ## Música tema
 
-O jogo procura **`naise.mp3`** na raiz do repositório e toca em loop
-(volume 34%, botão de mudo no canto superior direito). Se o arquivo não
-existir, o jogo roda em silêncio sem erro.
+*Naíse* — Nina Oliveira, 2024.
 
-Para ativar: coloque o mp3 de *Naíse* (Nina Oliveira, 2024) como
-`naise.mp3` na raiz e faça deploy.
+O jogo toca `naise.m4a` em loop a 34% de volume, com fade de 2,6s na
+entrada e um realce quando o pote fecha no final. Botão de som no canto
+superior direito; a preferência fica salva em `localStorage`.
+
+O navegador só libera áudio após gesto do usuário, então a música começa
+no clique de **Abrir registro**. Se ainda assim for bloqueada, o botão
+passa a exibir "♪ tocar" para uma segunda tentativa.
+
+### Sobre o arquivo
+
+`naise.m4a` (2,7 MB, AAC 110 kbps) é gerado a partir do `naise.mp3`
+original (7,7 MB, 320 kbps), que **não** é versionado — fica só local.
+Para regerar depois de trocar a fonte:
+
+```sh
+afconvert -f m4af -d aac -b 128000 naise.mp3 naise.m4a
+```
+
+O `<audio>` tem `naise.mp3` como segunda fonte: se você preferir servir o
+mp3, basta removê-lo do `.gitignore`.
+
+O deploy manda `X-Robots-Tag: noindex` — a página é um presente pessoal
+com faixa licenciada de terceiro, não conteúdo para buscador. Remova de
+`vercel.json` se quiser que seja indexada.

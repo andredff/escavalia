@@ -538,7 +538,7 @@ button{font:inherit;color:inherit;}
             <div class="idmeta">
               <div class="flab">Responsável técnica</div>
               <div class="name">ALIANE<br>OLIVEIRA</div>
-              <div class="who">Arqueóloga <br>· Aracaju, SE</div>
+              <div class="who">Arqueóloga · Aracaju, SE</div>
             </div>
           </div>
           <div class="split">
@@ -645,7 +645,10 @@ button{font:inherit;color:inherit;}
 
   </div>
 </div>
-<audio id="theme" loop preload="none"><source src="naise.mp3" type="audio/mpeg"></audio>
+<audio id="theme" loop preload="auto">
+  <source src="naise.m4a" type="audio/mp4">
+  <source src="naise.mp3" type="audio/mpeg">
+</audio>
 <script>
 "use strict";
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -661,6 +664,8 @@ const integLabel=v=> v>=95?"íntegro" : v>=75?"lascado" : "fraturado";
 
 /* ====== SOM — sintetizado, sem asset externo ====== */
 let AC=null, on=true, theme=$("#theme");
+const VOL=.34;              /* volume de fundo: presente, nao competindo */
+let fadeId=0, blocked=false;
 const ac=()=>{ if(!AC) AC=new (window.AudioContext||window.webkitAudioContext)(); 
   if(AC.state==="suspended") AC.resume(); return AC; };
 function noise(dur,f0,f1,g0,type){
@@ -695,12 +700,40 @@ const SFX={
   seat:()=>{tone(196,.22,.09,"sine");noise(.1,700,180,.05);},
   mel:()=>{[523.25,659.25,783.99,1046.5].forEach((f,i)=>setTimeout(()=>tone(f,.85,.055),i*150));}
 };
+/* fade por interpolacao: entrar cortando estraga a primeira nota */
+function fade(to,ms,then){
+  clearInterval(fadeId);
+  const from=theme.volume, t0=performance.now();
+  fadeId=setInterval(()=>{
+    const k=Math.min(1,(performance.now()-t0)/Math.max(1,ms));
+    theme.volume=clamp(from+(to-from)*k,0,1);
+    if(k>=1){ clearInterval(fadeId); then&&then(); }
+  },40);
+}
+function sndLabel(){ $("#snd").textContent = !on ? "♪ mudo" : blocked ? "♪ tocar" : "♪ som"; }
+/* navegador so libera audio apos gesto do usuario: chamamos no clique de abrir */
+function playTheme(ms){
+  if(!on) return;
+  theme.volume=0;
+  const p=theme.play();
+  if(p&&p.then) p.then(()=>{ blocked=false; sndLabel(); fade(VOL,ms||2600); })
+                 .catch(()=>{ blocked=true; sndLabel(); });
+}
+const startTheme=()=>playTheme(2600);
+/* o pote fechando e o pico emocional — a musica sobe junto com o mel */
+const swell=()=>{ if(on && !theme.paused) fade(Math.min(1,VOL*1.75),1800); };
+
 $("#snd").onclick=()=>{
-  on=!on; $("#snd").textContent = on?"♪ som":"♪ mudo";
-  if(on){ ac(); theme.volume=.34; theme.play().catch(()=>{}); } else theme.pause();
+  ac();
+  if(blocked){ playTheme(500); return; }      /* bloqueado por autoplay: tenta de novo */
+  on=!on; sndLabel();
+  try{ localStorage.setItem("escavalia.som", on?"1":"0"); }catch(_){}
+  if(on) playTheme(500);
+  else fade(0,350,()=>theme.pause());
 };
-const startTheme=()=>{ if(!on) return; theme.volume=.34;
-  theme.play().catch(()=>{}); /* silencioso se naise.mp3 nao existir */ };
+/* preferencia de som atravessa sessoes */
+try{ if(localStorage.getItem("escavalia.som")==="0") on=false; }catch(_){}
+sndLabel();
 
 /* ====== DESENHOS — prancha de publicacao arqueologica.
    Convencao: contorno de tinta, pontilhado para volume, hachura
@@ -1279,7 +1312,7 @@ function showFrag4(){
     setTimeout(()=>{
       $("#deco").setAttribute("opacity","1");
       $("#final").classList.add("mel");   // o pote fecha. a unica cor quente do jogo.
-      SFX.mel();
+      SFX.mel(); swell();
       lightBand(3); setRec("CTX 04","Laboratório · peça completa");
     },420);
     setTimeout(()=>say([
