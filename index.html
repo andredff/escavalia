@@ -280,6 +280,7 @@ button{font:inherit;color:inherit;}
    ETIQUETA DE ACHADO
    ============================================================ */
 #cardwrap{position:absolute;inset:0;z-index:40;display:flex;
+  pointer-events:auto;   /* #stage fica travado por baixo; a etiqueta precisa receber o clique */
   align-items:center;justify-content:center;padding:20px;
   background:rgba(22,21,15,.5);cursor:pointer;
   animation:fade .18s ease-out;}
@@ -454,6 +455,24 @@ button{font:inherit;color:inherit;}
 </style>
 </head>
 <body>
+<svg id="inkdefs" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+<defs>
+  <pattern id="hatch" width="3.2" height="3.2" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+    <line x1="0" y1="0" x2="0" y2="3.2" stroke="#16150F" stroke-width=".85"/>
+  </pattern>
+  <pattern id="hatch2" width="2.4" height="2.4" patternTransform="rotate(-45)" patternUnits="userSpaceOnUse">
+    <line x1="0" y1="0" x2="0" y2="2.4" stroke="#16150F" stroke-width=".55"/>
+  </pattern>
+  <pattern id="stip" width="2.6" height="2.6" patternUnits="userSpaceOnUse">
+    <circle cx=".8" cy=".8" r=".33" fill="#16150F"/>
+    <circle cx="2" cy="2" r=".24" fill="#16150F"/>
+  </pattern>
+  <pattern id="stipD" width="1.9" height="1.9" patternUnits="userSpaceOnUse">
+    <circle cx=".7" cy=".7" r=".36" fill="#16150F"/>
+    <circle cx="1.5" cy="1.5" r=".28" fill="#16150F"/>
+  </pattern>
+</defs>
+</svg>
 <div id="sheet">
 
   <aside id="strat">
@@ -650,24 +669,116 @@ $("#snd").onclick=()=>{
 const startTheme=()=>{ if(!on) return; theme.volume=.34;
   theme.play().catch(()=>{}); /* silencioso se naise.mp3 nao existir */ };
 
-/* ====== DESENHOS — tinta sobre papel, com trama ====== */
-const HATCH=`<defs><pattern id="h" width="4" height="4" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="4" stroke="#16150F" stroke-width="1.4"/></pattern></defs>`;
+/* ====== DESENHOS — prancha de publicacao arqueologica.
+   Convencao: contorno de tinta, pontilhado para volume, hachura
+   para seccao. Patterns vivem em #inkdefs (um id so no documento).
+   ====== */
+const V=s=>`<svg viewBox="0 0 64 64" width="100%" preserveAspectRatio="xMidYMid meet">${s}</svg>`;
+/* marcas radiais geradas — evita path data longo escrito a mao */
+const radial=(n,r0,r1,w)=>{let s=`<g stroke="#16150F" stroke-width="${w}" stroke-linecap="round">`;
+  for(let i=0;i<n;i++){const a=i/n*Math.PI*2;
+    s+=`<line x1="${(32+Math.cos(a)*r0).toFixed(1)}" y1="${(32+Math.sin(a)*r0).toFixed(1)}" x2="${(32+Math.cos(a)*r1).toFixed(1)}" y2="${(32+Math.sin(a)*r1).toFixed(1)}"/>`;}
+  return s+`</g>`;};
+
 const ART={
- lasca:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<path d="M30 5 49 24 42 53 17 51 7 25z" fill="none" stroke="#16150F" stroke-width="1.8"/><path d="M30 5 42 53 17 51z" fill="url(#h)" opacity=".55"/><path d="M30 5v48M7 25h42" stroke="#16150F" stroke-width=".8"/></svg>`,
- conta:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<circle cx="30" cy="30" r="20" fill="none" stroke="#16150F" stroke-width="1.8"/><circle cx="30" cy="30" r="20" fill="url(#h)" opacity=".35"/><circle cx="30" cy="30" r="6.5" fill="#16150F"/></svg>`,
- cachimbo:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<path d="M13 42c0-10 6-16 13-16h6v11h-5c-4 0-6 3-6 8z" fill="url(#h)" stroke="#16150F" stroke-width="1.6"/><path d="M32 21h16v7H32z" fill="none" stroke="#16150F" stroke-width="1.6"/></svg>`,
- conta2:`<svg viewBox="0 0 60 60" width="100%"><circle cx="30" cy="30" r="15" fill="#16150F"/><circle cx="30" cy="30" r="4.5" fill="#E0DCCC"/><path d="M20 21c4-3 12-4 18-1" stroke="#E0DCCC" stroke-width="2" fill="none" opacity=".8"/></svg>`,
- enxada:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<path d="M15 17h30l-4 24H19z" fill="url(#h)" stroke="#16150F" stroke-width="1.7"/><path d="M21 41h18l-3 9H24z" fill="#16150F"/></svg>`,
- parede:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<rect x="5" y="19" width="23" height="12" fill="url(#h)" stroke="#16150F" stroke-width="1.4"/><rect x="31" y="19" width="24" height="12" fill="none" stroke="#16150F" stroke-width="1.4"/><rect x="5" y="34" width="31" height="12" fill="none" stroke="#16150F" stroke-width="1.4"/><rect x="39" y="34" width="16" height="12" fill="url(#h)" stroke="#16150F" stroke-width="1.4"/></svg>`,
- faianca:`<svg viewBox="0 0 60 60" width="100%"><path d="M11 15 47 11 51 41 20 49 9 32z" fill="none" stroke="#16150F" stroke-width="1.8"/><path d="M17 22c7 5 15 5 23 0M17 32c7 5 15 5 23 0" stroke="#16150F" stroke-width="2.4" fill="none"/></svg>`,
- tampinha:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<circle cx="30" cy="30" r="17" fill="url(#h)" stroke="#16150F" stroke-width="1.6"/><circle cx="30" cy="30" r="10" fill="none" stroke="#16150F" stroke-width="1.4"/></svg>`,
- vidro:`<svg viewBox="0 0 60 60" width="100%"><path d="M16 11 45 20 38 47 13 40z" fill="none" stroke="#16150F" stroke-width="1.6" stroke-dasharray="5 3"/><path d="M21 18l15 6" stroke="#16150F" stroke-width="1.6"/></svg>`,
- telha:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<path d="M9 23h42v15a21 7 0 0 1-42 0z" fill="url(#h)" stroke="#16150F" stroke-width="1.6"/><ellipse cx="30" cy="23" rx="21" ry="7" fill="none" stroke="#16150F" stroke-width="1.6"/></svg>`,
- seixo:`<svg viewBox="0 0 60 60" width="100%"><ellipse cx="30" cy="32" rx="20" ry="15" fill="none" stroke="#16150F" stroke-width="1.6"/><path d="M16 28c5-4 12-5 19-2" stroke="#16150F" stroke-width="1.1" fill="none"/></svg>`,
- osso:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<path d="M14 38c-5 0-7-7-2-9 1-5 8-6 10-2l14-6c1-5 9-6 11-1 5 0 6 8 1 9-1 5-8 6-10 2l-14 6c-1 5-9 6-10 1z" fill="url(#h)" stroke="#16150F" stroke-width="1.6"/></svg>`,
- frag:`<svg viewBox="0 0 60 60" width="100%"><path d="M9 20 30 7 53 18 46 45 21 51 7 36z" fill="#9B3620" stroke="#16150F" stroke-width="1.8"/><path d="M9 20 30 7 53 18" fill="none" stroke="#E0DCCC" stroke-width="2.6"/><path d="M17 30h26M19 38h22" stroke="#16150F" stroke-width="2"/></svg>`,
- frag4:`<svg viewBox="0 0 60 60" width="100%"><path d="M11 15 30 6 51 17 45 46 20 51 8 33z" fill="#C98A2E" stroke="#E0DCCC" stroke-width="1.8"/><path d="M18 27h26M20 36h20" stroke="#16150F" stroke-width="2.2"/></svg>`,
- check:`<g class="mark"><rect x="2" y="2" width="56" height="56" fill="none" stroke="#9B3620" stroke-width="3"/><path d="M14 31l10 11 22-24" fill="none" stroke="#9B3620" stroke-width="4.5" stroke-linecap="square"/></g>`
+
+ /* litico: bulbo de percussao no topo, ondas concentricas, retoque na borda */
+ lasca:V(`<path d="M31 5 50 20 46 47 29 58 13 47 9 22Z" fill="url(#stip)" stroke="#16150F" stroke-width="1.8" stroke-linejoin="round"/>
+   <ellipse cx="31" cy="12" rx="6" ry="3.4" fill="#16150F" opacity=".9"/>
+   <g fill="none" stroke="#16150F" stroke-width=".95" opacity=".8">
+     <path d="M15 20q16 9 32 1"/><path d="M13 28q17 11 33 2"/>
+     <path d="M13 37q17 11 32 2"/><path d="M16 45q14 9 27 2"/>
+   </g>
+   <path d="M50 20l-4.2 3.2 4 3.4-4.2 3.2 3.8 3.4-4 3.2 3.6 3.4-3.4 3.2 3 3.4-2.6 2.6" fill="none" stroke="#16150F" stroke-width="1" stroke-linejoin="round"/>`),
+
+ /* conta de osso: cilindro em 3/4, furo passante, brilho de polimento */
+ conta:V(`<path d="M18 22h28v20H18z" fill="url(#stip)" stroke="none"/>
+   <path d="M18 22h28M18 42h28" stroke="#16150F" stroke-width="1.8"/>
+   <ellipse cx="46" cy="32" rx="5.4" ry="10" fill="url(#stip)" stroke="#16150F" stroke-width="1.8"/>
+   <ellipse cx="18" cy="32" rx="5.4" ry="10" fill="none" stroke="#16150F" stroke-width="1.8" stroke-dasharray="3 2.4" opacity=".55"/>
+   <ellipse cx="46" cy="32" rx="2.2" ry="4.6" fill="#16150F"/>
+   <path d="M23 26q11-2.6 18 0M23 38q11 2.6 18 0" fill="none" stroke="#16150F" stroke-width=".85" opacity=".55"/>`),
+
+ /* cachimbo de barro: fornilho + arranque de haste, fratura tracejada */
+ cachimbo:V(`<path d="M34 32.5q5.5.6 8-.2l15-1.9.8 6.3-15 1.9q-3 .4-8-.1z" fill="url(#hatch)" stroke="#16150F" stroke-width="1.5" stroke-linejoin="round"/>
+   <path d="M23.2 20.5 26 36.4q.6 4.2 5.1 4.2h2.6q4.5 0 5.1-4.2l2.8-15.9z" fill="url(#stip)" stroke="#16150F" stroke-width="1.6" stroke-linejoin="round"/>
+   <ellipse cx="32" cy="20.5" rx="8.8" ry="3.5" fill="none" stroke="#16150F" stroke-width="1.7"/>
+   <ellipse cx="32" cy="20.5" rx="5.8" ry="2.1" fill="none" stroke="#16150F" stroke-width=".75" opacity=".5"/>
+   <path d="M57.4 30.2l3.2 3.3-2.6 3.5" fill="none" stroke="#16150F" stroke-width="1.2" stroke-dasharray="2.2 1.8"/>`),
+
+ /* conta de vidro: esfera opaca com reflexo e furo */
+ conta2:V(`<circle cx="32" cy="32" r="17.5" fill="#16150F"/>
+   <ellipse cx="32" cy="16.2" rx="4.6" ry="2.3" fill="#E0DCCC" opacity=".92"/>
+   <path d="M18.4 26.5a17.5 17.5 0 0 1 11.2-9.8 20.5 20.5 0 0 0-8.3 10.4z" fill="#E0DCCC" opacity=".72"/>
+   <path d="M22 44.5q10 4.2 20 0" fill="none" stroke="#E0DCCC" stroke-width=".9" opacity=".26" stroke-linecap="round"/>
+   <circle cx="32" cy="32" r="17.5" fill="none" stroke="#16150F" stroke-width="1.5"/>`),
+
+ /* enxada de ferro: olho de encabamento, gume gasto, corrosao pontual */
+ enxada:V(`<path d="M20 14h24l3.5 20q-15.5 9-31 0z" fill="url(#hatch)" stroke="#16150F" stroke-width="1.7" stroke-linejoin="round"/>
+   <ellipse cx="32" cy="21" rx="6.2" ry="3.5" fill="#16150F"/>
+   <path d="M16.5 34q15.5 9 31 0" fill="none" stroke="#16150F" stroke-width="3.4"/>
+   <g fill="#16150F" opacity=".5"><circle cx="24" cy="29" r="1.3"/><circle cx="40" cy="28" r="1.1"/>
+     <circle cx="32" cy="30.5" r="1"/><circle cx="27" cy="17" r=".8"/><circle cx="43" cy="19" r=".9"/></g>`),
+
+ /* alicerce de pedra seca: alcada em elevacao, juntas sem argamassa */
+ parede:V(`<g stroke="#16150F" stroke-width="1.5" stroke-linejoin="round">
+     <path d="M5 19h20l3.5 11H7z" fill="url(#stip)"/><path d="M28 18h18l2.5 12H31z" fill="none"/>
+     <path d="M49 20h11l-1 10h-9.5z" fill="url(#stip)"/>
+     <path d="M7 31h14.5l2 12H9z" fill="none"/><path d="M24.5 31h19l1 12H26z" fill="url(#stip)"/>
+     <path d="M46 31h13l-1 12H47z" fill="none"/>
+     <path d="M9 44h16.5l1 10H11z" fill="url(#stip)"/><path d="M28 44h16l1 10H29z" fill="none"/>
+     <path d="M47 44h11v10H48z" fill="url(#stip)"/>
+   </g>`),
+
+ /* faianca: caco com motivo em cobalto — rendido em traco, nao em cor */
+ faianca:V(`<path d="M11 16 50 10 56 41 22 53 8 34Z" fill="none" stroke="#16150F" stroke-width="1.9" stroke-linejoin="round"/>
+   <path d="M16 24q10 7.5 21 3t15-1.5" fill="none" stroke="#16150F" stroke-width="3"/>
+   <path d="M15 33q11 7.5 22 2.5t15 0" fill="none" stroke="#16150F" stroke-width="3"/>
+   <circle cx="25" cy="43" r="3.6" fill="url(#hatch2)" stroke="#16150F" stroke-width="1.2"/>
+   <circle cx="37" cy="41" r="2.6" fill="url(#hatch2)" stroke="#16150F" stroke-width="1.2"/>
+   <circle cx="46" cy="38" r="1.8" fill="url(#hatch2)" stroke="#16150F" stroke-width="1"/>`),
+
+ /* tampinha: coroa vista de cima, dentes gerados */
+ tampinha:V(`<circle cx="32" cy="32" r="18" fill="url(#stip)" stroke="#16150F" stroke-width="1.7"/>
+   ${radial(21,18,14.2,1.4)}
+   <circle cx="32" cy="32" r="12.6" fill="none" stroke="#16150F" stroke-width="1.4"/>
+   <circle cx="32" cy="32" r="8" fill="none" stroke="#16150F" stroke-width=".9" opacity=".6"/>`),
+
+ /* vidro: contorno tracejado = transparente. facetas internas */
+ vidro:V(`<path d="M16 11 49 21 42 50 13 41Z" fill="none" stroke="#16150F" stroke-width="1.6" stroke-dasharray="4.5 3" stroke-linejoin="round"/>
+   <g fill="none" stroke="#16150F" stroke-width="1" opacity=".8" stroke-linecap="round">
+     <path d="M18.5 15.5q13 6 21 13.5"/><path d="M17 23.5q13.5 6 22.5 14"/>
+     <path d="M15.5 31.5q12.5 6 20.5 13.5"/><path d="M14.5 39q7.5 3.5 12 7"/>
+   </g>`),
+
+ /* telha colonial: meia-cana, seccao hachurada */
+ telha:V(`<path d="M8 22q24-9.5 48 0l-5 20.5q-19-7.5-38 0z" fill="url(#hatch)" stroke="#16150F" stroke-width="1.6" stroke-linejoin="round"/>
+   <path d="M8 22q24-9.5 48 0" fill="none" stroke="#16150F" stroke-width="1.9"/>
+   <path d="M13 42.5q19-7.5 38 0" fill="none" stroke="#16150F" stroke-width="1.4"/>
+   <path d="M14 27q18-6.5 36 0M17 33q15-5.5 30 0" fill="none" stroke="#16150F" stroke-width=".75" opacity=".45"/>`),
+
+ /* seixo: rolado, pontilhado denso de um lado so */
+ seixo:V(`<path d="M12 34q-2-11 10-14t22 2q9 5 6 14t-16 11q-14 2-19-5z" fill="url(#stip)" stroke="#16150F" stroke-width="1.6" stroke-linejoin="round"/>
+   <path d="M13.5 37q4 9 16.5 9.5T50 39q-2 8-13.5 9.5T15 43z" fill="url(#stipD)" opacity=".75"/>
+   <path d="M18 27q9.5-5.5 19-2.5" fill="none" stroke="#16150F" stroke-width="1" opacity=".5"/>`),
+
+ /* osso longo: fragmento de diafise com epifise */
+ osso:V(`<path d="M13 40c-6-1-7-9-1-11 0-6 9-8 12-3l16-7c0-6 10-8 13-2 6 1 7 9 1 11 0 6-9 8-12 3l-16 7c0 6-10 8-13 2z" fill="url(#stip)" stroke="#16150F" stroke-width="1.8" stroke-linejoin="round"/>
+   <path d="M24 31.5l16-7" fill="none" stroke="#16150F" stroke-width=".9" opacity=".5"/>`),
+
+ /* FRAGMENTO — borda de vaso. o unico vermelho do jogo ate o final.
+    labio claro no topo, incisoes paralelas, fratura irregular embaixo */
+ frag:V(`<path d="M8 23q24-13 48 0L53 42 48 46.5 43.5 40 38 47.5 32.5 41.5 27 48 22 42 17 46.5 11 41Z" fill="#9B3620" stroke="#16150F" stroke-width="1.8" stroke-linejoin="round"/>
+   <path d="M8 23q24-13 48 0" fill="none" stroke="#E0DCCC" stroke-width="3.2"/>
+   <path d="M11 31q21 8.5 42 0" fill="none" stroke="#16150F" stroke-width="2.3"/>
+   <path d="M12 38q20 8 40 0" fill="none" stroke="#16150F" stroke-width="2.3"/>`),
+
+ /* FRAGMENTO IV — a base. mel: a unica cor quente do jogo */
+ frag4:V(`<path d="M12 31v3.5q0 12.5 20 12.5t20-12.5V31z" fill="#C98A2E" stroke="#16150F" stroke-width="1.8" stroke-linejoin="round"/>
+   <ellipse cx="32" cy="31" rx="20" ry="12" fill="#C98A2E" stroke="#16150F" stroke-width="1.8"/>
+   <ellipse cx="32" cy="31" rx="12.6" ry="7.4" fill="none" stroke="#16150F" stroke-width="2.2"/>
+   <ellipse cx="32" cy="31" rx="6.2" ry="3.5" fill="none" stroke="#16150F" stroke-width="1" opacity=".45"/>
+   <path d="M14.5 38q17 7 35 0" fill="none" stroke="#16150F" stroke-width=".9" opacity=".35"/>`)
 };
 
 /* ====== CADERNO — note() nao trava, say() trava ====== */
@@ -745,14 +856,14 @@ const P1=[
  {cx:.44,cy:.74,r:.16,art:ART.frag,code:"SE-1208-A",nome:"Fragmento I",frag:"A",nivel:"−0,72 m",mat:"cerâmica",
   texto:"Borda de vaso. A argila não bate com nada do vale do São Francisco. Nada mesmo."}
 ];
-let cells=[],p1f=0,lastPt=null,lastT=0,spd=0,lastChip=0;
+let cells=[],p1f=0,lastPt=null,lastT=0,spd=0,lastChip=0,p1down=false,p1pid=null;
 const pfill=$("#pfill"),plab=$("#plab");
 
 function buildP1(){
   const grid=$("#p1grid"),under=$("#p1under");
   grid.style.setProperty("--g",G);
   grid.innerHTML=""; under.querySelectorAll(".buried").forEach(e=>e.remove());
-  cells=[];p1f=0;spd=0;lastPt=null;$("#p1count").textContent="0";
+  cells=[];p1f=0;spd=0;lastPt=null;p1down=false;p1pid=null;$("#p1count").textContent="0";
   pfill.style.width="0%";pfill.classList.remove("hot");plab.textContent="firme";
 
   P1.forEach(it=>{ it.done=false; it.cells=[]; it.integ=100; it.warned=false;
@@ -768,7 +879,6 @@ function buildP1(){
     P1.forEach((it,k)=>{ if(Math.hypot(x-it.cx,y-it.cy)<=it.r){ it.cells.push(i); c.dataset.own=k; } });
   }
 
-  let down=false;
   const brush=(el,fast)=>{
     if(!el||!el.classList.contains("cell"))return;
     let l=+el.dataset.life; if(l<=0)return;
@@ -801,17 +911,24 @@ function buildP1(){
     plab.textContent=hot?"pressa":"firme";
     return hot;
   };
-  grid.onpointerdown=e=>{down=true;grid.setPointerCapture(e.pointerId);
+  grid.onpointerdown=e=>{p1down=true;p1pid=e.pointerId;grid.setPointerCapture(e.pointerId);
     lastPt={x:e.clientX,y:e.clientY};lastT=performance.now();spd=0;brush(e.target,false);};
-  grid.onpointermove=e=>{ const hot=track(e); if(down) brush(at(e),hot); };
-  grid.onpointerup=grid.onpointercancel=()=>{down=false;lastPt=null;spd=0;
-    pfill.style.width="0%";pfill.classList.remove("hot");plab.textContent="firme";};
+  grid.onpointermove=e=>{ const hot=track(e); if(p1down) brush(at(e),hot); };
+  grid.onpointerup=grid.onpointercancel=()=>releaseBrush();
+}
+function releaseBrush(){
+  const grid=$("#p1grid");
+  if(p1pid!=null && grid.hasPointerCapture && grid.hasPointerCapture(p1pid)){
+    try{ grid.releasePointerCapture(p1pid); }catch(_){}
+  }
+  p1down=false; p1pid=null; lastPt=null; spd=0;
+  pfill.style.width="0%"; pfill.classList.remove("hot"); plab.textContent="firme";
 }
 function checkP1(){
   P1.forEach(it=>{ if(it.done)return;
     const clean=it.cells.filter(i=>+cells[i].dataset.life===0).length;
     if(clean/it.cells.length>=.7){
-      it.done=true;p1f++;$("#p1count").textContent=p1f; SFX.find();
+      it.done=true;p1f++;$("#p1count").textContent=p1f; SFX.find(); releaseBrush();
       if(it.frag) S.frag[it.frag].int=it.integ;
       showCard({...it,sitio:"Xingó, SE",integ:it.integ},()=>{
         if(it.frag){lightSlot(0,it.integ<95);lightBand(0);}
