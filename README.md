@@ -34,3 +34,15 @@ mp3, basta removê-lo do `.gitignore`.
 O deploy manda `X-Robots-Tag: noindex` — a página é um presente pessoal
 com faixa licenciada de terceiro, não conteúdo para buscador. Remova de
 `vercel.json` se quiser que seja indexada.
+
+## Antes do deploy
+
+```sh
+./check.sh
+```
+
+Confere balanceamento de tags HTML, chaves do CSS e sintaxe do JavaScript.
+Uma tag de fechamento perdida numa edição manual não dá erro visível: o
+navegador reaninha o documento em silêncio e elementos inteiros somem da
+tela. Foi o que aconteceu com o caderno de campo, que virou filho da ficha
+04 (oculta) por causa de dois `</div>` faltando.
