@@ -1,5 +1,12 @@
 # Escavalia — contexto completo
 
+> **Aviso — este documento descreve a v1.** A v2 (`index.html`) revisou
+> credencial, distâncias, terminologia e as falas de fechamento. Onde os
+> dois divergirem, o código é a fonte da verdade. Principais divergências:
+> Aliane é **Dra. em Arqueologia / responsável técnica**; as distâncias
+> foram acertadas (200 km Xingó→Palmares, 508 km Xingó→Recife, 5 km
+> Recife→Olinda); "argila" virou "pasta"; e a observação da ficha 04 mudou.
+
 Documento de referência extraído da versão 1 (`index.html`, arquivo único de 55KB).
 Serve de base para refazer do zero.
 
