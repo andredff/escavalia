@@ -3,34 +3,43 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Aliane Oliveira — Registro de Escavação</title>
+<title>Escavalia</title>
+<meta name="description" content="Registro de escavação — três sítios, três fragmentos, um vaso.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Petrona:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
-   PALETA — derivada da carta Munsell de solos.
-   Nada de creme + terracota. Papel oliva acinzentado, tinta,
-   os três solos reais dos sítios, e um único vermelho de sinal.
+   ESCAVALIA v2
+   PALETA — carta Munsell de solos. Papel oliva acinzentado,
+   tinta, os tres solos reais dos sitios, um vermelho de sinal.
+   Tema unico deliberado: e um formulario de campo sob sol.
    ============================================================ */
 :root{
-  --paper:#C7C2AF;        /* 2.5Y 8/2  papel de ficha */
-  --paper-lo:#B3AE9A;     /* sombra do papel */
-  --card:#E0DCCC;         /* etiqueta de achado */
-  --sheet-04:#D5BCAE;     /* ficha de contexto colorida */
-  --ink:#181713;
-  --ink-60:rgba(24,23,19,.6);
-  --ink-30:rgba(24,23,19,.3);
-  --ink-14:rgba(24,23,19,.14);
-  --gley:#565E58;         /* GLEY1 5/10Y  cinza-verde */
-  --s1:#7C6238;           /* 10YR 5/4  Xingó */
-  --s2:#63291A;           /* 2.5YR 3/6 Serra da Barriga */
-  --s3:#4E4F4A;           /* GLEY1 4/N várzea do Capibaribe */
-  --red:#9B3620;          /* pigmento — só fragmentos */
+  --paper:#C4BFAC;
+  --paper-lo:#ADA894;
+  --paper-hi:#D2CDBB;
+  --card:#E0DCCC;
+  --sheet-04:#D5BCAE;
+  --ink:#16150F;
+  --ink-70:rgba(22,21,15,.7);
+  --ink-55:rgba(22,21,15,.55);
+  --ink-30:rgba(22,21,15,.3);
+  --ink-14:rgba(22,21,15,.14);
+  --ink-07:rgba(22,21,15,.07);
+  --gley:#565E58;
+  --s1:#7C6238;
+  --s2:#63291A;
+  --s3:#4E4F4A;
+  --red:#9B3620;
+  --red-lo:rgba(155,54,32,.16);
+  --good:#4A5D3A;
 
-  --narrow:"Archivo Narrow", Haettenschweiler, sans-serif;
-  --type:"Courier Prime", Courier, monospace;
-  --voice:"Petrona", Georgia, serif;
+  --narrow:"Archivo Narrow",Haettenschweiler,"Arial Narrow",sans-serif;
+  --type:"Courier Prime",Courier,monospace;
+  --voice:"Petrona",Georgia,serif;
+
+  --gut:14px;
 }
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -39,317 +48,416 @@ body{
   background:var(--paper-lo);
   color:var(--ink);
   font-family:var(--voice);
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  /* textura de fibra do papel */
+  background-image:
+    repeating-linear-gradient(94deg,rgba(0,0,0,.022) 0 1px,transparent 1px 3px),
+    repeating-linear-gradient(4deg,rgba(0,0,0,.018) 0 1px,transparent 1px 4px);
 }
+button{font:inherit;color:inherit;}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px;}
 
+/* ---------- FOLHA ---------- */
 #sheet{
-  width:100%;max-width:540px;height:100%;max-height:960px;
+  width:100%;max-width:560px;height:100%;max-height:980px;
   background:var(--paper);
   display:flex;position:relative;overflow:hidden;
-  box-shadow:0 0 0 1px var(--ink);
+  box-shadow:0 0 0 1px var(--ink), 0 18px 50px rgba(0,0,0,.28);
+}
+@media(min-width:620px) and (min-height:700px){
+  #sheet{height:calc(100% - 40px);border-radius:1px;}
 }
 
 /* ============================================================
-   COLUNA ESTRATIGRÁFICA — elemento-assinatura.
-   Não é decoração: é o registro do que já foi escavado.
+   COLUNA ESTRATIGRAFICA — elemento-assinatura.
+   Nao e decoracao: e o registro do que ja foi escavado.
+   A quarta banda nao e solo. E uma data.
    ============================================================ */
 #strat{
-  flex:0 0 34px;border-right:1px solid var(--ink);
+  flex:0 0 38px;border-right:1px solid var(--ink);
   display:flex;flex-direction:column;background:var(--paper);
 }
 #strat .cap{
-  flex:0 0 auto;font-family:var(--type);font-size:7.5px;line-height:1;
-  padding:6px 0;text-align:center;border-bottom:1px solid var(--ink);
+  font-family:var(--narrow);font-size:9px;letter-spacing:.18em;
+  text-align:center;padding:7px 0 5px;border-bottom:1px solid var(--ink);
+  text-transform:uppercase;
 }
 .band{
-  flex:1 1 0;border-bottom:1px solid var(--ink);position:relative;
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  flex:1;position:relative;border-bottom:1px solid var(--ink-30);
+  overflow:hidden;display:flex;align-items:flex-end;justify-content:center;
 }
-.band:last-child{border-bottom:none;}
-.band .mun{
-  writing-mode:vertical-rl;font-family:var(--type);font-size:7.5px;
-  color:var(--ink-30);white-space:nowrap;letter-spacing:.02em;position:relative;z-index:2;
-}
-.band.on .mun{color:var(--ink);}
-.band .fill{position:absolute;inset:0;opacity:0;transition:opacity .9s;}
-.band.on .fill{opacity:1;}
-/* tramas de seção — areia (pontos), argila (traços), entulho (triângulos) */
-.f1{background:
-  radial-gradient(circle at 3px 3px, rgba(24,23,19,.5) .9px, transparent 1px) 0 0/7px 7px,
-  var(--s1);}
-.f2{background:
-  repeating-linear-gradient(0deg, rgba(24,23,19,.45) 0 1px, transparent 1px 6px),
-  var(--s2);}
-.f3{background:
-  repeating-linear-gradient(45deg, rgba(24,23,19,.4) 0 1px, transparent 1px 5px),
-  repeating-linear-gradient(-45deg, rgba(24,23,19,.4) 0 1px, transparent 1px 5px),
-  var(--s3);}
+.band .fill{position:absolute;inset:0;transform:translateY(100%);
+  transition:transform .9s cubic-bezier(.2,.7,.2,1);}
+.band.on .fill{transform:translateY(0);}
+.f1{background:var(--s1);}
+.f2{background:var(--s2);}
+.f3{background:var(--s3);}
 .f4{background:var(--ink);}
-.band.on.b4 .mun{color:var(--paper);}
-#strat .base{
-  flex:0 0 auto;padding:5px 0;text-align:center;border-top:1px solid var(--ink);
-  font-family:var(--type);font-size:9px;
+/* tramas de secao: areia (pontos), argila (tracos), entulho (triangulos) */
+.f1::after{content:"";position:absolute;inset:0;opacity:.5;
+  background-image:radial-gradient(rgba(255,255,255,.55) .7px,transparent .8px);
+  background-size:5px 5px;}
+.f2::after{content:"";position:absolute;inset:0;opacity:.4;
+  background-image:repeating-linear-gradient(60deg,rgba(255,255,255,.5) 0 1px,transparent 1px 6px);}
+.f3::after{content:"";position:absolute;inset:0;opacity:.45;
+  background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.4) 0 1px,transparent 1px 7px),
+  repeating-linear-gradient(90deg,rgba(255,255,255,.25) 0 1px,transparent 1px 7px);}
+.band .mun{
+  position:relative;z-index:2;font-family:var(--type);font-size:8px;
+  writing-mode:vertical-rl;transform:rotate(180deg);
+  padding:0 0 6px;letter-spacing:.04em;color:var(--ink-55);
+  transition:color .5s;white-space:nowrap;
 }
+.band.on .mun{color:rgba(255,255,255,.92);}
+#strat .base{font-size:11px;text-align:center;padding:4px 0 7px;color:var(--ink-55);}
 
-#col{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;}
+#col{flex:1;display:flex;flex-direction:column;min-width:0;position:relative;}
 
-/* ============================================================
-   CABEÇALHO — linha de ficha, não "hero"
-   ============================================================ */
-#rec{flex:0 0 auto;border-bottom:1px solid var(--ink);}
-#rec .r1{
-  display:flex;align-items:stretch;border-bottom:1px solid var(--ink-14);
+/* ---------- CABECALHO DE REGISTRO ---------- */
+#rec{flex:0 0 auto;border-bottom:1px solid var(--ink);background:var(--paper);}
+#rec .r1{display:flex;align-items:baseline;gap:10px;padding:9px var(--gut) 7px;}
+#rec .ctx{font-family:var(--type);font-size:13px;font-weight:700;letter-spacing:.03em;white-space:nowrap;}
+#rec .loc{font-family:var(--narrow);font-size:11.5px;color:var(--ink-70);
+  letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#rec .r2{display:flex;border-top:1px solid var(--ink-14);}
+#rec .slot{
+  flex:1;font-family:var(--type);font-size:10px;text-align:center;
+  padding:6px 2px;color:var(--ink-30);border-right:1px solid var(--ink-14);
+  position:relative;transition:color .45s,background .45s;letter-spacing:.02em;
 }
-#rec .ctx{
-  flex:0 0 auto;padding:5px 8px;border-right:1px solid var(--ink-14);
-  font-family:var(--type);font-size:10px;white-space:nowrap;
+#rec .slot:last-child{border-right:0;}
+#rec .slot.on{color:var(--red);font-weight:700;background:var(--red-lo);}
+#rec .slot.on::after{
+  content:"";position:absolute;left:50%;bottom:3px;width:16px;height:2px;
+  background:var(--red);transform:translateX(-50%);
 }
-#rec .loc{
-  flex:1 1 auto;min-width:0;padding:5px 9px;
-  font-family:var(--narrow);font-weight:700;font-size:14px;
-  text-transform:uppercase;letter-spacing:-.01em;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-#rec .r2{display:flex;}
-.slot{
-  flex:1 1 0;text-align:center;padding:4px 2px;
-  font-family:var(--type);font-size:9.5px;
-  border-right:1px solid var(--ink-14);color:var(--ink-30);
-  transition:background .4s,color .4s;
-}
-.slot:last-child{border-right:none;}
-.slot.on{background:var(--ink);color:var(--paper);}
+#rec .slot.cracked{color:var(--ink-55);background:transparent;}
+#rec .slot.cracked::after{background:var(--ink-30);}
 
-/* ============================================================
-   PALCO
-   ============================================================ */
-#stage{flex:1 1 auto;position:relative;overflow:hidden;}
+/* ---------- PALCO ---------- */
+#stage{flex:1;position:relative;overflow:hidden;display:flex;}
 .scene{position:absolute;inset:0;display:flex;flex-direction:column;}
-.hidden{display:none !important;}
+.scene.hidden,.hidden{display:none !important;}
 
+/* barra de instrucao + medidores */
 .instr{
-  flex:0 0 auto;display:flex;justify-content:space-between;gap:8px;
-  padding:6px 9px;border-bottom:1px solid var(--ink-14);
-  font-family:var(--narrow);font-weight:600;font-size:12px;
-  text-transform:uppercase;color:var(--ink-60);
+  flex:0 0 auto;display:flex;align-items:center;gap:10px;
+  padding:8px var(--gut);border-bottom:1px solid var(--ink-14);
+  font-family:var(--narrow);font-size:11.5px;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--ink-70);
 }
-.instr .n{font-family:var(--type);font-size:11px;color:var(--ink);}
+.instr .n{margin-left:auto;font-family:var(--type);font-size:12px;
+  color:var(--ink);font-weight:700;letter-spacing:0;
+  font-variant-numeric:tabular-nums;white-space:nowrap;}
+.instr .n b{color:var(--red);}
 
-.play{flex:1 1 auto;position:relative;display:flex;align-items:center;justify-content:center;padding:14px 16px;}
-.board{position:relative;width:100%;max-width:388px;aspect-ratio:1/1;border:1px solid var(--ink);}
-/* marcas de quadrícula ao redor da trincheira */
+.play{flex:1;display:flex;align-items:center;justify-content:center;padding:12px var(--gut);min-height:0;}
+.board{
+  position:relative;width:100%;max-width:420px;aspect-ratio:1/1;
+  max-height:100%;box-shadow:0 0 0 1px var(--ink);overflow:hidden;
+  touch-action:none;
+}
+/* marcas de quadricula ao redor da trincheira */
 .board::before,.board::after{
-  content:"";position:absolute;pointer-events:none;
+  content:"";position:absolute;pointer-events:none;z-index:9;
 }
-.board::before{
-  left:-1px;right:-1px;top:-5px;height:4px;
-  background:repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 12.5%);
-}
-.board::after{
-  top:-1px;bottom:-1px;left:-5px;width:4px;
-  background:repeating-linear-gradient(180deg,var(--ink) 0 1px,transparent 1px 12.5%);
-}
+.board::before{inset:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);}
 
-/* ---------- FASE 1 · trincheira ---------- */
-#p1under{position:absolute;inset:0;overflow:hidden;
-  background:
-    repeating-linear-gradient(179deg, rgba(24,23,19,.10) 0 1px, transparent 1px 13px),
-    radial-gradient(circle at 4px 5px, rgba(24,23,19,.22) 1px, transparent 1.4px) 0 0/9px 9px,
-    linear-gradient(178deg,#6E5731 0%,#7C6238 42%,#8C7146 78%,#6A5430 100%);
-}
+/* ============================================================
+   FASE 1 · TRINCHEIRA — pincel com controle de pressao
+   ============================================================ */
+#p1under{position:absolute;inset:0;background:
+  radial-gradient(70% 60% at 40% 30%,#8C6F42 0%,#7C6238 55%,#5E4A2A 100%);}
+#p1under::after{content:"";position:absolute;inset:0;opacity:.5;
+  background-image:radial-gradient(rgba(0,0,0,.3) 1px,transparent 1.2px);background-size:7px 7px;}
+.buried{position:absolute;transform:translate(-50%,-50%);opacity:.94;
+  filter:drop-shadow(0 1px 0 rgba(255,255,255,.16));}
 #p1grid{position:absolute;inset:0;display:grid;
-  grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);
-  touch-action:none;cursor:crosshair;}
-.cell{
-  background:
-    repeating-linear-gradient(31deg, rgba(0,0,0,.20) 0 2px, transparent 2px 6px),
-    #35291B;
-  box-shadow:inset 0 0 0 .5px rgba(199,194,175,.10);
-  transition:opacity .18s linear;
-}
-.cell.l2{opacity:.74;} .cell.l1{opacity:.4;} .cell.l0{opacity:0;}
-.buried{position:absolute;transform:translate(-50%,-50%);pointer-events:none;}
+  grid-template-columns:repeat(var(--g),1fr);grid-template-rows:repeat(var(--g),1fr);
+  z-index:3;cursor:crosshair;}
+.cell{background:#6B5433;position:relative;transition:background .12s,opacity .18s;}
+.cell::after{content:"";position:absolute;inset:0;opacity:.55;
+  background-image:radial-gradient(rgba(0,0,0,.22) 1px,transparent 1.1px);background-size:6px 6px;}
+.cell.l2{background:#7E6740;}
+.cell.l1{background:#907A50;opacity:.72;}
+.cell.l0{background:transparent;opacity:0;pointer-events:none;}
+.cell.scuff{box-shadow:inset 0 0 0 1px rgba(155,54,32,.5);}
 
-/* ---------- FASE 2 · lupa ---------- */
-#p2scene{position:absolute;inset:0;overflow:hidden;background:#3A1B11;}
-#p2veil{position:absolute;inset:0;background:#181713;
-  -webkit-mask-image:radial-gradient(circle 78px at var(--lx,50%) var(--ly,50%), transparent 0 56%, #000 100%);
-  mask-image:radial-gradient(circle 78px at var(--lx,50%) var(--ly,50%), transparent 0 56%, #000 100%);
-  touch-action:none;cursor:none;}
-#p2ring{position:absolute;width:156px;height:156px;margin:-78px 0 0 -78px;
-  border:1px solid var(--paper);border-radius:50%;pointer-events:none;}
-#p2ring::before,#p2ring::after{content:"";position:absolute;background:var(--paper);opacity:.65;}
-#p2ring::before{left:50%;top:-7px;bottom:-7px;width:1px;}
-#p2ring::after{top:50%;left:-7px;right:-7px;height:1px;}
-#p2read{
-  position:absolute;right:0;top:-1px;transform:translateY(-100%);
-  font-family:var(--type);font-size:9px;color:var(--ink-60);padding-bottom:3px;
+/* medidor de pressao — torna a mecanica legivel */
+#press{
+  flex:0 0 auto;display:flex;align-items:center;gap:8px;
+  padding:0 var(--gut) 10px;font-family:var(--narrow);
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-55);
 }
-.target{position:absolute;transform:translate(-50%,-50%);cursor:pointer;}
-.target.got{pointer-events:none;}
-.target.got .mark{opacity:1;}
-.mark{opacity:0;transition:.3s;}
+#pbar{flex:1;height:7px;background:var(--ink-07);position:relative;box-shadow:inset 0 0 0 1px var(--ink-14);}
+#pfill{position:absolute;left:0;top:0;bottom:0;width:0%;background:var(--gley);transition:width .09s linear,background .18s;}
+#pbar .limit{position:absolute;top:-3px;bottom:-3px;left:62%;width:1px;background:var(--ink);}
+#pfill.hot{background:var(--red);}
+#press .lab{white-space:nowrap;}
 
-/* ---------- FASE 3 · peneira ---------- */
-#sieve{
-  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:88%;aspect-ratio:1/1;border-radius:50%;
-  background:
-    repeating-linear-gradient(0deg,rgba(24,23,19,.55) 0 1.2px,transparent 1.2px 8px),
-    repeating-linear-gradient(90deg,rgba(24,23,19,.55) 0 1.2px,transparent 1.2px 8px),
-    #6C6455;
-  border:8px solid #4A3B27;
-  box-shadow:0 0 0 1px var(--ink), inset 0 0 26px rgba(0,0,0,.45);
+/* ============================================================
+   FASE 2 · SONDAGEM — leitura de mancha, orcamento de acoes
+   ============================================================ */
+#p2grid{position:absolute;inset:0;display:grid;gap:1px;background:var(--ink-30);
+  grid-template-columns:repeat(var(--g2),1fr);grid-template-rows:repeat(var(--g2),1fr);}
+.sq{
+  position:relative;background:#6E4A34;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .25s,box-shadow .2s;
 }
-#sieve.shaking{animation:shake .6s steps(8,end);}
-@keyframes shake{
-  0%,100%{transform:translate(-50%,-50%)}
-  25%{transform:translate(-54%,-52%)}
-  50%{transform:translate(-46%,-48%)}
-  75%{transform:translate(-52%,-49%)}
+.sq::after{content:"";position:absolute;inset:0;opacity:.4;
+  background-image:repeating-linear-gradient(112deg,rgba(0,0,0,.2) 0 1px,transparent 1px 5px);}
+.sq .stain{position:absolute;inset:8%;border-radius:46% 54% 38% 62%;
+  background:#3A2114;opacity:0;transition:opacity .4s;}
+.sq:hover{box-shadow:inset 0 0 0 2px rgba(255,255,255,.3);}
+.sq.probed{background:#5C3D2B;}
+.sq.probed .num{
+  position:relative;z-index:2;font-family:var(--type);font-size:clamp(13px,3.6vw,17px);
+  font-weight:700;color:#F0E9DA;text-shadow:0 1px 2px rgba(0,0,0,.6);
 }
-.grit{position:absolute;transform:translate(-50%,-50%);transition:.45s;cursor:pointer;}
-.grit.gone{opacity:0;transform:translate(-50%,150%);pointer-events:none;}
-.grit.dirty{filter:sepia(.9) brightness(.45) contrast(.8);}
-.grit.picked{pointer-events:none;}
-.grit.picked .mark{opacity:1;}
+.sq.dug{background:#3E2A1D;cursor:default;}
+.sq.dug:hover{box-shadow:none;}
+.sq.empty::before{content:"·";position:relative;z-index:2;color:rgba(255,255,255,.35);font-size:20px;}
+.sq .art{position:relative;z-index:2;width:74%;}
+.sq.hit{animation:pop .4s cubic-bezier(.2,.9,.3,1);}
+@keyframes pop{0%{transform:scale(.5);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+
+#tools{
+  flex:0 0 auto;display:flex;gap:0;padding:0 var(--gut) 12px;
+}
+.tool{
+  flex:1;background:transparent;border:1px solid var(--ink);
+  padding:9px 6px;cursor:pointer;font-family:var(--narrow);
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  transition:background .18s,color .18s;
+}
+.tool+.tool{border-left:0;}
+.tool .cost{font-family:var(--type);font-size:9px;letter-spacing:0;color:var(--ink-55);}
+.tool.on{background:var(--ink);color:var(--paper);}
+.tool.on .cost{color:rgba(255,255,255,.65);}
+
+/* ============================================================
+   FASE 3 · PENEIRA — triagem em tempo real
+   ============================================================ */
+#sieve{position:absolute;inset:0;background:
+  radial-gradient(60% 50% at 50% 40%,#5A5B54 0%,#4E4F4A 60%,#33342F 100%);
+  overflow:hidden;}
+#sieve::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.35) 0 1px,transparent 1px 9px),
+  repeating-linear-gradient(90deg,rgba(0,0,0,.35) 0 1px,transparent 1px 9px);}
+#sieve.shaking{animation:shk .42s cubic-bezier(.36,.07,.19,.97);}
+@keyframes shk{
+  10%{transform:translate(-3px,1px)}30%{transform:translate(4px,-2px)}
+  50%{transform:translate(-4px,2px)}70%{transform:translate(3px,-1px)}
+  90%{transform:translate(-2px,1px)}100%{transform:none}
+}
+.grit{position:absolute;transform:translate(-50%,-50%);cursor:pointer;z-index:4;
+  transition:opacity .3s,transform .3s;}
+.grit.wash{opacity:0;transform:translate(-50%,60px) rotate(28deg);pointer-events:none;}
+.grit.kept{opacity:0;transform:translate(-50%,-50%) scale(1.5);pointer-events:none;}
+.grit .halo{position:absolute;inset:-14%;border:1.5px solid rgba(255,255,255,.32);border-radius:50%;}
+
+/* barra d'agua — o tempo da onda */
+#water{
+  position:absolute;left:0;right:0;bottom:0;height:5px;z-index:8;
+  background:rgba(0,0,0,.35);
+}
+#wfill{height:100%;width:100%;background:var(--gley);transition:width .1s linear;}
+#wfill.low{background:var(--red);}
+
 #scalebar{
-  position:absolute;left:10px;bottom:10px;font-family:var(--type);font-size:8px;color:var(--paper);
+  position:absolute;right:8px;bottom:12px;z-index:8;
+  font-family:var(--type);font-size:9px;color:rgba(255,255,255,.85);
+  display:flex;align-items:center;gap:5px;
 }
-#scalebar i{display:block;width:70px;height:6px;margin-bottom:2px;
-  background:repeating-linear-gradient(90deg,var(--paper) 0 14px,var(--ink) 14px 28px);
-  box-shadow:0 0 0 1px var(--paper);}
+#scalebar i{display:block;width:34px;height:5px;
+  background:linear-gradient(90deg,#fff 0 50%,transparent 50%);
+  box-shadow:0 0 0 1px rgba(255,255,255,.85);}
 
 /* ============================================================
-   ETIQUETA DE ACHADO — sem blur, sem raio, sombra dura
+   ETIQUETA DE ACHADO
    ============================================================ */
-#cardwrap{position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;
-  background:rgba(24,23,19,.72);padding:22px;}
+#cardwrap{position:absolute;inset:0;z-index:40;display:flex;
+  align-items:center;justify-content:center;padding:20px;
+  background:rgba(22,21,15,.5);cursor:pointer;
+  animation:fade .18s ease-out;}
+@keyframes fade{from{opacity:0}to{opacity:1}}
 .card{
-  width:100%;max-width:322px;background:var(--card);color:var(--ink);
-  border:1.5px solid var(--ink);box-shadow:7px 7px 0 rgba(24,23,19,.35);
-  transform:rotate(-.9deg);animation:stamp .16s steps(3,end);
+  width:100%;max-width:330px;background:var(--card);
+  box-shadow:0 0 0 1px var(--ink),0 14px 34px rgba(0,0,0,.4);
+  animation:rise .3s cubic-bezier(.2,.8,.3,1);
 }
-@keyframes stamp{from{opacity:0;transform:rotate(-.9deg) scale(1.05)}}
+@keyframes rise{from{transform:translateY(14px) rotate(-.6deg);opacity:0}to{transform:none;opacity:1}}
 .card .bar{
-  background:var(--ink);color:var(--card);display:flex;justify-content:space-between;
-  padding:4px 8px;font-family:var(--type);font-size:10px;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:6px 10px;border-bottom:1px solid var(--ink);
+  font-family:var(--narrow);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
 }
-.card .mid{display:flex;border-bottom:1px solid var(--ink);}
-.card .fig{flex:0 0 92px;border-right:1px solid var(--ink);padding:10px;display:flex;align-items:center;}
-.card .meta{flex:1 1 auto;min-width:0;padding:9px 10px;}
-.card h3{
-  font-family:var(--narrow);font-weight:700;font-size:19px;line-height:1.05;
-  text-transform:uppercase;letter-spacing:-.015em;margin:0 0 8px;
-}
-.card .kv{font-family:var(--type);font-size:9.5px;line-height:1.75;color:var(--ink-60);}
-.card .kv b{color:var(--ink);font-weight:400;}
-.card p{font-family:var(--voice);font-size:16px;font-weight:300;line-height:1.55;margin:0;padding:11px 11px 9px;}
-.card .foot{
-  border-top:1px solid var(--ink-14);padding:5px 9px;text-align:right;
-  font-family:var(--narrow);font-weight:600;font-size:11px;text-transform:uppercase;color:var(--ink-60);
-}
+.card .bar b{font-family:var(--type);font-size:11px;letter-spacing:.02em;}
+.card .mid{display:flex;gap:12px;padding:12px 12px 8px;align-items:flex-start;}
+.card .fig{flex:0 0 78px;}
+.card .meta{flex:1;min-width:0;}
+.card h3{margin:0 0 6px;font-family:var(--narrow);font-size:17px;font-weight:600;line-height:1.15;}
+.card .kv{font-family:var(--type);font-size:10.5px;line-height:1.7;color:var(--ink-70);}
+.card .kv b{color:var(--ink);}
+.card p{margin:0;padding:0 12px 10px;font-size:14.5px;line-height:1.45;font-style:italic;}
+.card .foot{border-top:1px solid var(--ink-14);padding:6px 10px;
+  font-family:var(--narrow);font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-55);text-align:right;}
+.card.neg{background:var(--ink);color:var(--card);}
+.card.neg .bar{border-color:var(--card);}
+.card.neg .kv{color:rgba(224,220,204,.75);}
+.card.neg .kv b{color:var(--card);}
+.card.neg .foot{border-color:rgba(224,220,204,.25);color:rgba(224,220,204,.6);}
+.card .integ{font-family:var(--narrow);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;padding:0 12px 10px;}
+.card .integ i{font-style:normal;padding:1px 6px;box-shadow:inset 0 0 0 1px currentColor;}
+.integ.ok{color:var(--good);}
+.integ.bad{color:var(--red);}
 
 /* ============================================================
-   DIÁLOGO — banda inferior, retrato quadrado tramado
+   O MEL — a unica cor quente do jogo. So aparece quando o
+   pote fecha. "Pousamos juntos num pote cheio de mel."
    ============================================================ */
-#dlg{flex:0 0 auto;border-top:1px solid var(--ink);background:var(--paper);
-  display:flex;gap:0;cursor:pointer;min-height:112px;}
-#dlg.hidden{display:none;}
-#face{flex:0 0 84px;border-right:1px solid var(--ink);background:var(--card);
-  display:flex;flex-direction:column;}
-#face img{display:block;width:100%;height:auto;}
-#face .plate{flex:1 1 auto;font-family:var(--type);font-size:8px;
-  padding:2px 5px;border-top:1px solid var(--ink);color:var(--ink-60);}
+:root{ --mel:#C98A2E; --mel-hi:#E8B65C; }
 
-/* estampa fotográfica na capa */
-.idrow{display:flex;gap:11px;align-items:flex-start;}
-.idphoto{flex:0 0 74px;border:1px solid var(--ink);}
-.idphoto img{display:block;width:100%;height:auto;}
-.idphoto span{display:block;font-family:var(--type);font-size:8px;
-  padding:2px 4px;border-top:1px solid var(--ink);color:var(--ink-60);}
-.idmeta{flex:1 1 auto;min-width:0;}
-#dtext{flex:1 1 auto;min-width:0;padding:8px 11px 11px;}
-#dname{font-family:var(--narrow);font-weight:700;font-size:12px;text-transform:uppercase;
-  color:var(--ink-60);margin-bottom:4px;}
-#dline{font-family:var(--voice);font-size:17.5px;font-weight:300;line-height:1.45;min-height:3em;}
-#cur{display:inline-block;width:.5em;height:1em;background:var(--ink);
-  vertical-align:-.12em;margin-left:2px;opacity:0;}
-#cur.on{opacity:1;animation:blink 1.05s steps(1,end) infinite;}
+/* ============================================================
+   CADERNO DE CAMPO — a voz da Aliane.
+   Nao bloqueia o jogo: ela fala enquanto voce trabalha.
+   So os beats de virada travam a cena.
+   ============================================================ */
+#cad{
+  flex:0 0 auto;display:flex;gap:10px;align-items:flex-start;
+  padding:9px var(--gut) 11px;border-top:1px solid var(--ink);
+  background:var(--paper-hi);min-height:66px;position:relative;z-index:20;
+}
+#cad.block{cursor:pointer;}
+#cad.block::after{
+  content:"▸";position:absolute;right:var(--gut);bottom:8px;
+  font-size:12px;color:var(--red);animation:blink 1s steps(2) infinite;
+}
 @keyframes blink{50%{opacity:0}}
-
-/* ============================================================
-   ABERTURA — capa de caderno de registro
-   ============================================================ */
-#intro{padding:20px 18px;justify-content:center;}
-.form{border:1.5px solid var(--ink);background:var(--card);}
-.form .top{background:var(--ink);color:var(--card);display:flex;justify-content:space-between;
-  padding:5px 9px;font-family:var(--type);font-size:10px;}
-.frow{border-bottom:1px solid var(--ink);padding:7px 10px 9px;}
-.frow:last-child{border-bottom:none;}
-.flab{font-family:var(--narrow);font-weight:600;font-size:11px;text-transform:uppercase;color:var(--ink-60);}
-.name{font-family:var(--narrow);font-weight:700;font-size:clamp(34px,11.5vw,54px);
-  line-height:.84;letter-spacing:-.04em;margin:3px 0 0;}
-.frow .who{font-family:var(--type);font-size:11px;margin-top:5px;}
-.split{display:flex;border-bottom:1px solid var(--ink);}
-.split>div{flex:1 1 0;padding:7px 10px 9px;border-right:1px solid var(--ink);}
-.split>div:last-child{border-right:none;}
-.big{font-family:var(--type);font-size:26px;line-height:1;margin-top:3px;}
-.frow p{font-family:var(--voice);font-size:16px;font-weight:300;line-height:1.5;margin:5px 0 0;}
-#intro .go{margin-top:16px;display:flex;justify-content:flex-end;}
-
-.btn{
-  font-family:var(--narrow);font-weight:700;font-size:14px;text-transform:uppercase;
-  letter-spacing:.01em;background:var(--ink);color:var(--paper);border:1.5px solid var(--ink);
-  padding:9px 16px;cursor:pointer;border-radius:0;transition:none;
+#face{flex:0 0 40px;}
+#face img{width:40px;height:auto;display:block;
+  box-shadow:0 0 0 1px var(--ink);filter:grayscale(1) contrast(1.28);}
+#face .plate{
+  display:block;font-family:var(--narrow);font-size:7.5px;letter-spacing:.1em;
+  text-align:center;padding-top:2px;color:var(--ink-55);
 }
-.btn:hover{background:var(--paper);color:var(--ink);}
-.btn:focus-visible{outline:2px solid var(--red);outline-offset:2px;}
-.btn.out{background:transparent;color:var(--ink);}
-.btn.out:hover{background:var(--ink);color:var(--paper);}
+#ctext{flex:1;min-width:0;}
+#cname{font-family:var(--narrow);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--red);margin-bottom:2px;}
+#cline{font-size:15px;line-height:1.34;min-height:2.7em;}
+#cur{display:inline-block;width:7px;height:1px;background:var(--ink);
+  vertical-align:baseline;margin-left:1px;opacity:0;}
+#cur.on{opacity:1;animation:blink 1s steps(2) infinite;}
 
 /* ============================================================
-   FINAL — desenho de cerâmica em convenção arqueológica
+   ABERTURA
    ============================================================ */
-#final{padding:16px;align-items:center;justify-content:center;overflow-y:auto;}
-#vase{width:100%;max-width:224px;}
-.shard{opacity:0;transition:opacity .5s;}
-.shard.set{opacity:1;}
-#codeline{margin-top:16px;width:100%;max-width:290px;border:1px solid var(--ink);}
-#codeline div{font-family:var(--type);font-size:13px;padding:5px 10px;
-  border-bottom:1px solid var(--ink-14);display:flex;justify-content:space-between;}
-#codeline div:last-child{border-bottom:none;}
-#codeline .hl{transition:background .5s,color .5s;padding:0 2px;}
-#codeline .lit .hl{background:var(--red);color:var(--card);}
+#intro{padding:0;overflow-y:auto;}
+.form{padding:16px var(--gut) 0;}
+.form .top{
+  display:flex;justify-content:space-between;
+  font-family:var(--narrow);font-size:10px;letter-spacing:.2em;
+  text-transform:uppercase;padding-bottom:8px;border-bottom:2px solid var(--ink);
+}
+.frow{padding:11px 0;border-bottom:1px solid var(--ink-14);}
+.flab{font-family:var(--narrow);font-size:9.5px;letter-spacing:.17em;
+  text-transform:uppercase;color:var(--ink-55);margin-bottom:4px;}
+.idrow{display:flex;gap:13px;align-items:flex-start;}
+.idphoto{flex:0 0 76px;}
+.idphoto img{width:76px;height:auto;display:block;
+  box-shadow:0 0 0 1px var(--ink);filter:grayscale(1) contrast(1.28);}
+.idphoto span{display:block;font-family:var(--narrow);font-size:8px;
+  letter-spacing:.12em;text-align:center;padding-top:3px;color:var(--ink-55);}
+.idmeta{flex:1;min-width:0;}
+.name{font-family:var(--narrow);font-size:29px;font-weight:700;line-height:.94;
+  letter-spacing:-.005em;margin-bottom:6px;}
+.who{font-family:var(--type);font-size:11px;color:var(--ink-70);line-height:1.5;}
+.split{display:flex;border-bottom:1px solid var(--ink-14);}
+.split>div{flex:1;padding:11px 0;border-right:1px solid var(--ink-14);}
+.split>div:last-child{border-right:0;padding-left:11px;}
+.split>div:not(:first-child){padding-left:11px;}
+.big{font-family:var(--type);font-size:25px;font-weight:700;line-height:1;
+  font-variant-numeric:tabular-nums;}
+.dt{font-family:var(--type);font-size:15px;font-weight:700;}
+.form p{margin:0;font-size:15px;line-height:1.45;}
+.go{padding:16px var(--gut) 20px;display:flex;justify-content:flex-end;}
+.btn{
+  background:var(--ink);color:var(--paper);border:0;
+  padding:11px 20px;cursor:pointer;
+  font-family:var(--narrow);font-size:12.5px;letter-spacing:.13em;
+  text-transform:uppercase;transition:transform .12s,box-shadow .12s;
+}
+.btn:hover{transform:translateY(-1px);box-shadow:0 3px 0 var(--ink-30);}
+.btn:active{transform:none;box-shadow:none;}
+.btn:disabled{opacity:.4;cursor:default;transform:none;box-shadow:none;}
+.btn.out{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink);}
+.btn.out:hover{box-shadow:inset 0 0 0 1px var(--ink),0 3px 0 var(--ink-30);}
 
 /* ============================================================
-   FICHA 04 — papel de outra cor, como nas unidades de campo
+   FINAL — remontagem
    ============================================================ */
-#book{padding:22px 18px;justify-content:center;overflow-y:auto;}
-.sheet04{border:1.5px solid var(--ink);background:var(--sheet-04);}
-.sheet04 .top{background:var(--ink);color:var(--sheet-04);display:flex;justify-content:space-between;
-  padding:5px 9px;font-family:var(--type);font-size:10px;}
-.sheet04 .frow{border-color:var(--ink);}
-.sheet04 .achado{font-family:var(--narrow);font-weight:700;font-size:52px;line-height:.86;
-  letter-spacing:-.04em;margin:1px 0 0;}
-.sheet04 .dt{font-family:var(--type);font-size:24px;margin-top:2px;}
-.sheet04 .obs{font-family:var(--voice);font-style:italic;font-size:16.5px;font-weight:300;
-  line-height:1.6;margin:5px 0 0;}
-#book .sign{font-family:var(--narrow);font-weight:600;font-size:12px;text-transform:uppercase;
-  color:var(--ink-60);text-align:right;margin-top:12px;}
-#book .go{margin-top:14px;display:flex;justify-content:flex-end;}
+#final{align-items:center;justify-content:center;gap:16px;padding:16px;}
+#vase{width:min(58%,190px);height:auto;overflow:visible;}
+.shard{opacity:0;transform:translateY(-26px);transition:opacity .5s,transform .7s cubic-bezier(.2,.8,.25,1);}
+.shard.set{opacity:1;transform:none;}
+#codeline{width:100%;max-width:300px;font-family:var(--type);font-size:11.5px;}
+#codeline>div{display:flex;justify-content:space-between;padding:5px 0;
+  border-bottom:1px solid var(--ink-14);opacity:0;transform:translateX(-8px);
+  transition:opacity .45s,transform .45s;}
+#codeline>div.lit{opacity:1;transform:none;}
+#codeline .hl{color:var(--red);font-weight:700;}
+#codeline span:last-child{color:var(--ink-55);font-family:var(--narrow);letter-spacing:.04em;}
 
-@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;transition-duration:.05s !important;}}
-@media (max-height:700px){ #dline{font-size:16px;} .frow p{font-size:15px;}}
-@media (max-width:360px){#strat{flex-basis:28px;}}
+/* o mel: so quando o pote fecha */
+#final.mel #vase{filter:drop-shadow(0 0 22px rgba(201,138,46,.55));}
+#final.mel{background:radial-gradient(70% 45% at 50% 46%,rgba(201,138,46,.16) 0%,transparent 70%);}
+
+/* ============================================================
+   FICHA 04
+   ============================================================ */
+#book{padding:16px var(--gut);overflow-y:auto;}
+.sheet04{background:var(--sheet-04);box-shadow:0 0 0 1px var(--ink);padding:14px;}
+.sheet04 .top{
+  display:flex;justify-content:space-between;
+  font-family:var(--narrow);font-size:10px;letter-spacing:.2em;
+  text-transform:uppercase;padding-bottom:8px;border-bottom:2px solid var(--ink);
+}
+.sheet04 .frow{border-color:rgba(22,21,15,.2);}
+.sheet04 .split{border-color:rgba(22,21,15,.2);}
+.sheet04 .split>div{border-color:rgba(22,21,15,.2);}
+.achado{font-family:var(--narrow);font-size:38px;font-weight:700;
+  letter-spacing:.06em;line-height:1;}
+.obs{font-style:italic;}
+.sign{text-align:right;font-family:var(--narrow);font-size:10px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--ink-55);padding:12px 0 0;}
+
+/* ============================================================
+   RODAPE DE CONTROLE — som
+   ============================================================ */
+#snd{
+  position:absolute;top:6px;right:6px;z-index:60;
+  background:transparent;border:0;cursor:pointer;padding:5px 7px;
+  font-family:var(--narrow);font-size:9px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-55);
+  box-shadow:inset 0 0 0 1px var(--ink-14);
+}
+#snd:hover{color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink-30);}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important;}
+}
 </style>
 </head>
 <body>
 <div id="sheet">
 
-  <!-- COLUNA ESTRATIGRÁFICA -->
   <aside id="strat">
-    <div class="cap">PERFIL</div>
+    <div class="cap">Perfil</div>
     <div class="band b1" data-b="0"><div class="fill f1"></div><span class="mun">10YR 5/4</span></div>
     <div class="band b2" data-b="1"><div class="fill f2"></div><span class="mun">2.5YR 3/6</span></div>
     <div class="band b3" data-b="2"><div class="fill f3"></div><span class="mun">GLEY 4/N</span></div>
@@ -358,6 +466,7 @@ body{
   </aside>
 
   <div id="col">
+    <button id="snd" aria-label="Alternar som">♪ som</button>
 
     <header id="rec">
       <div class="r1">
@@ -376,7 +485,7 @@ body{
       <!-- ABERTURA -->
       <div class="scene" id="intro">
         <div class="form">
-          <div class="top"><span>REGISTRO DE ESCAVAÇÃO</span><span>2026</span></div>
+          <div class="top"><span>Registro de escavação</span><span>2026</span></div>
           <div class="frow idrow">
             <div class="idphoto"><img src="data:image/png;base64,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" alt="Aliane Oliveira"><span>EST. 01</span></div>
             <div class="idmeta">
@@ -398,32 +507,44 @@ body{
         <div class="go"><button class="btn" id="startBtn">Abrir registro ▸</button></div>
       </div>
 
-      <!-- FASE 1 -->
+      <!-- FASE 1 · PINCEL -->
       <div class="scene hidden" id="p1">
-        <div class="instr"><span>Escove a terra ▸ arraste</span><span class="n"><span id="p1count">0</span>/3</span></div>
+        <div class="instr"><span>Escove — devagar</span>
+          <span class="n"><b id="p1count">0</b>/3</span></div>
         <div class="play"><div class="board">
           <div id="p1under"></div><div id="p1grid"></div>
         </div></div>
+        <div id="press">
+          <span class="lab">Pressão</span>
+          <div id="pbar"><div id="pfill"></div><div class="limit"></div></div>
+          <span class="lab" id="plab">firme</span>
+        </div>
       </div>
 
-      <!-- FASE 2 -->
+      <!-- FASE 2 · SONDAGEM -->
       <div class="scene hidden" id="p2">
-        <div class="instr"><span>Lupa ▸ toque no vestígio</span><span class="n"><span id="p2count">0</span>/5</span></div>
+        <div class="instr"><span id="p2lab">Leia a mancha</span>
+          <span class="n">Ações <b id="p2acts">14</b> · <b id="p2count">0</b>/5</span></div>
         <div class="play"><div class="board">
-          <div id="p2read">N 1024,0 · E 512,0</div>
-          <div id="p2scene"></div><div id="p2veil"></div><div id="p2ring"></div>
+          <div id="p2grid"></div>
         </div></div>
+        <div id="tools">
+          <button class="tool on" id="tDig" data-t="dig">Escavar<span class="cost">1 ação</span></button>
+          <button class="tool" id="tProbe" data-t="probe">Sondar<span class="cost">1 ação · lê o entorno</span></button>
+        </div>
       </div>
 
-      <!-- FASE 3 -->
+      <!-- FASE 3 · PENEIRA -->
       <div class="scene hidden" id="p3">
-        <div class="instr"><span id="p3lab">Peneira ▸ sacuda</span><span class="n"><span id="p3count">0</span>/3</span></div>
+        <div class="instr"><span id="p3lab">Onda 1 de 3</span>
+          <span class="n"><b id="p3count">0</b>/3 · perdidos <b id="p3lost">0</b></span></div>
         <div class="play"><div class="board">
           <div id="sieve"></div>
+          <div id="water"><div id="wfill"></div></div>
           <div id="scalebar"><i></i>0 · 5 cm</div>
         </div></div>
-        <div style="flex:0 0 auto;padding:0 16px 14px;display:flex;justify-content:flex-end;">
-          <button class="btn out" id="shakeBtn">Sacudir ▸</button>
+        <div style="flex:0 0 auto;padding:0 var(--gut) 12px;display:flex;justify-content:flex-end;">
+          <button class="btn out" id="shakeBtn">Abrir a água ▸</button>
         </div>
       </div>
 
@@ -436,18 +557,20 @@ body{
       <!-- FICHA 04 -->
       <div class="scene hidden" id="book">
         <div class="sheet04">
-          <div class="top"><span>FICHA DE CONTEXTO</span><span>04</span></div>
-          <div class="frow"><div class="flab">Local de coleta</div><div class="who" style="font-size:13px">Terraço Capibaribe · Recife, PE</div></div>
+          <div class="top"><span>Ficha de contexto</span><span>04</span></div>
+          <div class="frow"><div class="flab">Local de coleta</div>
+            <div class="who" style="font-size:13px">Terraço Capibaribe · Recife, PE</div></div>
           <div class="frow"><div class="flab">Achado</div><div class="achado">ANDRÉ</div></div>
           <div class="split">
-            <div><div class="flab">Procedência</div><div class="dt" style="font-size:19px">Olinda</div></div>
+            <div><div class="flab">Procedência</div><div class="dt" style="font-size:18px">Olinda</div></div>
             <div><div class="flab">Datação</div><div class="dt">12.08</div></div>
-            <div><div class="flab">Estado</div><div class="dt" style="font-size:19px">íntegro</div></div>
+            <div><div class="flab">Estado</div><div class="dt" style="font-size:18px">íntegro</div></div>
           </div>
           <div class="frow"><div class="flab">Contexto</div>
-            <p style="font-size:15.5px">Não estava enterrado. Não precisava ser escavado.</p></div>
+            <p style="font-size:15px">Não estava enterrado. Não precisava ser escavado.</p></div>
           <div class="frow"><div class="flab">Observações</div>
             <p class="obs">A gente aprende que achado importante é achado antigo. Vinte anos acreditando nisso. Bastou um dia pra desaprender.</p></div>
+          <div class="frow" id="verdict"></div>
         </div>
         <div class="sign">Registro encerrado</div>
         <div class="go"><button class="btn out" id="againBtn">Escavar de novo ▸</button></div>
@@ -456,291 +579,500 @@ body{
       <div id="cardwrap" class="hidden"></div>
     </div>
 
-    <!-- DIÁLOGO -->
-    <div id="dlg" class="hidden">
-      <div id="face"><img src="data:image/png;base64,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" alt="Aliane Oliveira"><span class="plate">EST. 01</span></div>
-      <div id="dtext">
-        <div id="dname">Aliane</div>
-        <div id="dline"><span id="cur"></span></div>
+    <!-- CADERNO DE CAMPO -->
+    <div id="cad">
+      <div id="face">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKgAAADECAIAAACEH/3CAAARWklEQVR4nO1dTa7zuBHsecgNZjHvKAbmAHPmHCCAFzlCFjlKFsrwa1VVN5uSbEt6LBiGTFPNZv+TkuXfvv/43dZ4/uufjz//So7rB/l7pZv1kHSOKHQZW84qMvA6VPgcejenoK/lg39vPfzkE9X6biAsPyQfd2eYC8VI648//2rt3BPaI/re1iOaQPxFGNIocMWzAAV9mRINq1nqWLZHI3kNdRUMjZHomQKHKCkaSQ2mD8T9rH3PCtnNSKxfClBKQypIeLwp9VugS27neBCxW3F0z0BkhYtTMlcgwYqX+EGNTEcKkQdiynYoknjJjVF/4fF+SpHKOcbKeFDkrIG1DvKFQf1ZME9pTHAKOLTvz7x5I4O4AjKE6UtTHgJQiPxENkZh2L7/+P2///l3e19e3eO80RP0PbmxffQvaImI+86tpTiu7y8ZToh3u8lZRK+hsyIBdtv5YOXx7OvmXM3WbmdxCpBxhiOBb2eA+y49vXNHOQUMX3p/Ugp4r5UBhlMG0/TzkmFgG3giUY7vH3Q9OPJ+eFWCQeRYie2DayakcsPP4033Y/4OQ8ggkfh0MTZIpy+yxwdf3hjZtOVXXAyCQVkQDLp1EDMD/aOCpQUDYAb4BDflj0zZVHgA//OhSI7+cGvCqOCAxgggcE82qav44MsoKEV6tbX6o5l0Q40FKk/SBMdVnjyLxsuR7TIvhTwPMglClSfnCzIxshtLNZ3kCBgr0rHvD+1fvofUq5H6QUayj59hlJB8f55bEyvk1CijS2GxQ4Ml8TvwHPWPJsIjgrhyfYMVRsHPAgdgI5bW+VyWc8A6Iw9KHOHhI0+AJcLy5XlCzEi6AUFbG0RkN/wVj57bBxB8rnOTuZif24FUhPR7GRRzgVhbzuUVWVQiJbVeVPJAkVKp1CSpqFiDU7YVfUPrpYiO75bUeiAc/rZ73C3iIp5XxR0cRzlGtsvqBrzBW1wS/M35io+rfAqYeTvFlEvlkZynmXDIYV/2aTThW5YbZAcOkLIQAWaghaewEn7F0SsH0au7IAFvqMSY3Pm6ThlFkaHo0g0SlQ7SlZPwwI0Vp5eM2bea8OgrmnMU1nJlg7gr1jBkKN3jiuYkTTm1XKN1ZfNZUrxSVvyyb5LX6HukFeYyUkykKslYUYXwys/NJ5IbU85wdMC6TDy4Ygpy7onKRHE3+ko8JtF9IuIhxSRTHSVSYSCZbDK69MtIcwlBqXugX1SlfaupbnB6aci5biL7resm8bYuhaIuk3aYY9G5JefsIfyRWaqYTiQBfXVu9CVnyBznQo8UnLCXOHH0VdHXk6GlSiqWJHUvrSoRY+Qn/DEivrzwejwvwyrvcnnGO4C8GvHLqmjzJKEgV6G8JQLHsNIzWt1FTJpbMbYD3iOSgD5yIOCk0ZfbkclyUa6fkcM9Hi9dIY+HXScruk6Rn+5BJR5EX0XRNQ/skbNWQkUxSCSTba+9OT4aOAk7dSOoq6GY3hJxFAlGdizp5JbHcTtqH6WZm/Xy/tv3H79H1xU4WHE3eSGhG/T4dPltBUWeo57QyLvxkXCSfXI+lhvm/BW3A/3oKgOH/a5Cv2QnmcuZP1vnPyOVy+3YKPtyi0yEyfZnfSyoEmCO+Qa2VDZ/1c4CFbZdXs73trYnT8Hz8FhfEfZlhwXqh3fz1+P5BE9d1hcRo3AMQ0bgDix0C/SX0+FveTPcSLXMORRoLCXPJOs+nyN3Bjqmwkw7YEUYadNPfOXxRqqKTEZq3R9HhaVEpSquSK1SOYMNSaME74GPRgYBepKxULItJw4aeriq3gLdMxHrqW+V431vPp/Hzgfmc2Uak6LpYsO5+SmSpeIo3UTOPY38jaOCFzLHdumB0SnMcMfjkxbOW9DNAluOPkr+osai1iNf527gZ3AKz64rkHwinJ4jF7e1BfB0QMfcbkovHY/f4+5AQZptNMoedKkl3rDB4yOnNCpHZISP5NA9Tho5JHCf377//rVsPpK0AOZesnUIEoL7B+0aQRIz8z4yPknFyIlIRSwfoxTAQ0smfyk+Gluy68eOuE9a3oxRBkaNLPKTSJGR9+f0o6Se0E9Cy69Qn0d1ycHrNHoI5Xqg7p6y03RyCVtsRkaWZL0gIdu5G3p8NMnESI9FMUMfTn9DoOoaTSVnJzRzRXRzvMUeb/CDCu/K7aNsfF3ojrQiOzypWt5GX7Z72cnhoIP/CEID+nAiC1Z6tq2Vx/ne1mEY1A+khMcnkAlsJ5KqYjOpwztvo8CeJ90ml2dXPl3XlxT0gxGid3/yITnYKBBJ8xwilXTwyENLNG4Ue/IOD/fbOciY3BkELl0cRpGd+RQvYf0oFH7PZzsKTh8QrNoLUkyELldd14RuMrkODSQZZrOIiifpBhwqJAX5FRD5ik6AdigsN4ODHiRR6fHtvWIEkv8cFWsumo7vn4SZp9rSZ2XLNG9rh46yidRXI5Ll+AOzrycY8boBryjv86+KPTnvykQu0/Me/iV92ZjleCgT9vi6DGIymo2SLcYARiLl+sKhkhEi7+RuIOQo+iZMQmbkANN4KHn8Hkjb30mTUV9lbJ4Un1j310pggJbiKZVxZXXyf8Un48lwMYpXKDvCIVlpJ7bF8Ny2uu2gRPmxvWuPl2dWWJdERk/cjzybMjZ45E5skO1QUSLTiu82cLPlEA6s4LZhZ5Q6UBT14SqlWc5hZO5c6od79UktWpmDOVv7IPYnqYb3mMIr1hpSiVjVW2EPpzLwUP/XIeFklMn3BABfGbRGWZ0xQIO+jIe0++RHmvLioS6gp7tr+Dy6N7LsBR+pAXOp+kZeEOYEuVu+XsCdu9abD3KcU+UN9cXei0ZfDnKpSnfPEW05JFb+8Fu2EBws8BIJb8Wj5vJOPAu7PZuX+HmHUbLdHSTZKIMERPj2jjdbbsAHl23bcAajHFptJifmLcl6DW+vHsrx0tfPj7oPvQ55PraYH+7J4SFy977HVxQpy8Vr4ULGWkEeRcRyjj1+qEy7qNbtspxHRZyMIrCoay1f0A82ekxJ56LykrjWXHhBH23qtYOmVtjGETdbmlK/JM2rlImXoihnWFvJqCB+H5+rU6b/a/kN4CTM72QjX6Oyb2Oo9/0iWkleuSie+24zOQQ7JZkHZlZu9vdjH9zqKiLi8B7mmCAXO8Rs8ORfOZ6vx0SL+I9vdzcmvQlL/jfw9nGnryOfnVzZQ6O+y7ay8+ozx6stAEpTo4qEVzJLh3rosvWMPovKptkegr8u0rCjdDe0N6z4h+CdG5YlzHBrlNtKRQM9idatfCMog6fACsUcD0SlRrsd9gAittxnBo16O2Dde8r7uT2PWSTgHVj+dnkXD0aIEmSSOPdv3LKzet3L0Xn9WR+o22eQ/QtAbOAsSFb90AHI2dpBN0C6aWvnHcqn+3XVqLVVwv4lnLsI2LJtyhU7d0PJGxaI23TPy01z2pWdK7xVBt327YUgs+TDPwMnR67UbVHXM8dFGR+8E1eM9nLJA8Vd+xj+oGKn+44i1/2ncEX1Mzi7PfMfTdbpelu5TZC0uyjeKMdb9DNpOPAlla1LATsozU+8CJEfljw+WSvz0utOHm/XdPqoKPaBueTxpkotqfvllCsK604AD5TbOB2P7+6UdRtfB84srysyrmvKUVT+8j3gwJ9pwTYqS/+lAb8N6ncfIdI86D98Dhn0QvDCZ9VYu0gDKzzZ1VRlGMFr5SjwatMoDeW1589BsrPe3rPfxxspO/po8ZWxV8xndDdpfxC6lvVE5bafxUrxLNC6l9va/w7UPaeoOiDo/RzdAzhHr6p6COzWW5pzubhHSQnTjT7XH/b3BoP86rF+oOCllTeEZHW2fAwfW75z1P0en9hQRD/n3M98G2+XsxvIxb4Rq/o9czu2noqcW35bwc5Mf4ndaC5svdt4FYuqvkKdQ6utbQpatiHfIsxHl0p6rG/kGsIlMgWsp5KNtS9TqT1CsVZiCzgExbLRbzD49mYQe3Q/esqnwOUXBMsw1Ecew/Wh73+gaEBzz+A/9YABoMDtLzLKswGs3ytrVdUbheV8oRz1P1CsYGHdDB2Fei4MuXGIq20nvg2yjGfphbdeRUSLIjuqvnu4P7XLKT/d86CNpnrU5tKZ0zzYtNzibMelizR80PWbw9dyMsVExUtRzduM4My6b5DlsBcdXpb1ZxrdZOE7DKXbDXx77sHauEx7rP/tErQOaWgznzsXhO+Bl5KUwwLx1Cvf4uHFx4VxVEPtAYySm5pc+NnaUHbys7M+eA8g1BvFyOVAb9lCOQ2kZeco/B6IqMLgRA6Nr+DkcJoHQho6qGngZkt28a7t7xcQp6jknU+0rYm8y9WxBF8EyPG+8Qv6JQfgTJXJP3bcE8G1ZDQrOIXr+dGhu7iKx0uvWORTfcBhfSHXZWjIBSO3rjj0izJOI/4iynsgF0FGt7FYsmULaV6m/1FscH25LIH434jzuZtZrTD2OuKbIQthqOqffh2f1E1sLIejIsSX5uzNuITfS9295Hr8HrBSWeUnMYJzar2BV/AY6ls/c5P5lEAf9G+c7yzXbwBfgIMbY6j/uJd3kWzLfBAnF5qloX7sevynAJuGUOh9iqtzymoBrMONuP2CEz4e6ouA8v4j6j+/x3Oct781Ky7SXGJHusEvYD5lASeET4Vw8GsD51PMvRqvu2qw4IRGVt9W11u298DHi4D3o3iZzbobOLfEIfZ9fnFxyvZF/up6/A/B/mrgDIvJCHIF743g/jl+CEVFRsviEyIv0sNbr34a4AqyfL9Q0SCX7/54evytwNdR5UXLB9yIMXF1tOIjufKCOf4qqWuiiFKOT3pMXBFyLecPZqi/IWRB5/e2bVb1N0NzdFCz/3bBrOrvCSjv9fX4iZuB70iGb20q/saADRywg6n4m0Mme5uKvxm6V2Nb4yzu7oboXgxoFw8xnrg6eIPWklA/d+5ug/x2gVnV3xB8I31U1c8cfyvUr7TNLdvbItfpT7zn7q6Qv5RrX8HBDPW3wnCon7gB5J21EeY6/j4AX5fXZtrBDPU3QRLkS0/EmLg6iml+5vg7QO7RWnqdZt5l+0Mx9+pvgrw2n+v4n4Ju/J45/vKQvp5cpFnQ+afJiZuhqXjl8VPrV4f0b1nzz1B/bfDTH+HAgtttZ3F3f5R+UDF37K8C1lTUIrd0psdfGHuK8ZnjL4xE6914MC/LXhJdZbFNwMp+hvofBJ8aRKifrn9yPNf/4d7Vl/zZ7PT4H4pZ3P1QhIqfAf+iKCpuXqT5oZg5/odi5vj7A4L/XMffCqNpehZ3N8FocRZu4Mwq7+rIXXeG+h+KWdz9UEzFXx7bqrGp+GvA//0AYFs1NhV/AURPpe32T6AVP9dyRbxHUNFTafP+OWZVfxmM+j2cC2dNxV8Je3QPmDn+SjjwT96n4q8B+OPQ+kOOIsxQfzFED7/wHQ4r7uYNGmfDfo2UQv3U+nkAi7rNyX7m+Kti5z8cdxQ/d3LOhqMK+47i+a+oJz6OQ26YyBR/4HbBxNnQr+rnDTm3RN/jp8pPBfjh3GZkis//02biIziq6vqHbJ07NifEsU6oPd7/Rd00gk/Bb9GwFnbaQae4m7r/LPzC6sD7rixR/FT2B5H8fRzg+J07X0TMEu/NaFr3cV7u0W5WzfT40wH+BthbQIQNmup4vE13fzv8Y0nhzov874aG0L86N/3+nYDcyqt2H/P37LD1fy07Pf6d8J7tEzwEfB8Mtu3lzVuvzg5O+Us7WMOo30/FnxH59gn795HFnRxg4j3ortyWTL+nAM9+QjXLulMBqn35VR3ZXv2C6ffngXyS6WIHo2qaOf7C2FPczYcfXQmVf6Apov/wo2kB54FMwX5L38r6mqH+7IB1vD9oHezYdfwHr9PMS0QVHLll2/1N3nsw7+evYI+UUPGnSu3T6SP49ds2Kc0cfz3s370x8Ph5Re7k2K+XRuF/8UX8O17McIYAAAAASUVORK5CYII=" alt="Aliane Oliveira">
+        <span class="plate">EST. 01</span>
+      </div>
+      <div id="ctext">
+        <div id="cname">Aliane</div>
+        <div id="cline"><span id="cur"></span></div>
       </div>
     </div>
 
   </div>
 </div>
-
+<audio id="theme" loop preload="none"><source src="naise.mp3" type="audio/mpeg"></audio>
 <script>
 "use strict";
-const $ = s => document.querySelector(s);
-const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const clamp=(v,a,b)=>v<a?a:v>b?b:v;
+
+/* ====== ESTADO — o dano atravessa as fases ====== */
+const S={
+  frag:{A:{int:100},B:{int:100},C:{int:100}},
+  lost:0, refuse:0
+};
+const integLabel=v=> v>=95?"íntegro" : v>=75?"lascado" : "fraturado";
+
+/* ====== SOM — sintetizado, sem asset externo ====== */
+let AC=null, on=true, theme=$("#theme");
+const ac=()=>{ if(!AC) AC=new (window.AudioContext||window.webkitAudioContext)(); 
+  if(AC.state==="suspended") AC.resume(); return AC; };
+function noise(dur,f0,f1,g0,type){
+  if(!on) return; const c=ac(), n=c.sampleRate*dur;
+  const b=c.createBuffer(1,n,c.sampleRate), d=b.getChannelData(0);
+  for(let i=0;i<n;i++) d[i]=(Math.random()*2-1)*(1-i/n);
+  const src=c.createBufferSource(); src.buffer=b;
+  const flt=c.createBiquadFilter(); flt.type=type||"bandpass";
+  flt.frequency.setValueAtTime(f0,c.currentTime);
+  flt.frequency.exponentialRampToValueAtTime(f1,c.currentTime+dur);
+  const g=c.createGain(); g.gain.setValueAtTime(g0,c.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+dur);
+  src.connect(flt); flt.connect(g); g.connect(c.destination); src.start();
+}
+function tone(f,dur,g0,type){
+  if(!on) return; const c=ac();
+  const o=c.createOscillator(), g=c.createGain();
+  o.type=type||"sine"; o.frequency.setValueAtTime(f,c.currentTime);
+  g.gain.setValueAtTime(0,c.currentTime);
+  g.gain.linearRampToValueAtTime(g0,c.currentTime+.012);
+  g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+dur);
+  o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime+dur);
+}
+const SFX={
+  scrape:()=>noise(.07,900,300,.045),
+  hard:()=>noise(.09,2400,700,.075),
+  chip:()=>{noise(.13,3600,400,.16,"highpass");tone(180,.16,.1,"square");},
+  find:()=>{tone(523.25,.16,.09);setTimeout(()=>tone(783.99,.3,.075),110);},
+  probe:()=>tone(392,.09,.06,"triangle"),
+  empty:()=>tone(147,.12,.05,"sine"),
+  water:()=>noise(.55,1800,240,.05,"lowpass"),
+  seat:()=>{tone(196,.22,.09,"sine");noise(.1,700,180,.05);},
+  mel:()=>{[523.25,659.25,783.99,1046.5].forEach((f,i)=>setTimeout(()=>tone(f,.85,.055),i*150));}
+};
+$("#snd").onclick=()=>{
+  on=!on; $("#snd").textContent = on?"♪ som":"♪ mudo";
+  if(on){ ac(); theme.volume=.34; theme.play().catch(()=>{}); } else theme.pause();
+};
+const startTheme=()=>{ if(!on) return; theme.volume=.34;
+  theme.play().catch(()=>{}); /* silencioso se naise.mp3 nao existir */ };
 
 /* ====== DESENHOS — tinta sobre papel, com trama ====== */
-const HATCH = `<defs><pattern id="h" width="4" height="4" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="4" stroke="#181713" stroke-width="1.4"/></pattern></defs>`;
-
-const ART = {
-
-  lasca:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<path d="M30 5 49 24 42 53 17 51 7 25z" fill="none" stroke="#181713" stroke-width="1.8"/><path d="M30 5 42 53 17 51z" fill="url(#h)" opacity=".55"/><path d="M30 5v48M7 25h42" stroke="#181713" stroke-width=".8"/></svg>`,
-  conta:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<circle cx="30" cy="30" r="20" fill="none" stroke="#181713" stroke-width="1.8"/><circle cx="30" cy="30" r="20" fill="url(#h)" opacity=".35"/><circle cx="30" cy="30" r="6.5" fill="#181713"/></svg>`,
-  cachimbo:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<path d="M13 42c0-10 6-16 13-16h6v11h-5c-4 0-6 3-6 8z" fill="url(#h)" stroke="#181713" stroke-width="1.6"/><path d="M32 21h16v7H32z" fill="none" stroke="#181713" stroke-width="1.6"/></svg>`,
-  conta2:`<svg viewBox="0 0 60 60" width="100%"><circle cx="30" cy="30" r="15" fill="#181713"/><circle cx="30" cy="30" r="4.5" fill="#E0DCCC"/><path d="M20 21c4-3 12-4 18-1" stroke="#E0DCCC" stroke-width="2" fill="none" opacity=".8"/></svg>`,
-  enxada:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<path d="M15 17h30l-4 24H19z" fill="url(#h)" stroke="#181713" stroke-width="1.7"/><path d="M21 41h18l-3 9H24z" fill="#181713"/></svg>`,
-  parede:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<rect x="5" y="19" width="23" height="12" fill="url(#h)" stroke="#181713" stroke-width="1.4"/><rect x="31" y="19" width="24" height="12" fill="none" stroke="#181713" stroke-width="1.4"/><rect x="5" y="34" width="31" height="12" fill="none" stroke="#181713" stroke-width="1.4"/><rect x="39" y="34" width="16" height="12" fill="url(#h)" stroke="#181713" stroke-width="1.4"/></svg>`,
-  faianca:`<svg viewBox="0 0 60 60" width="100%"><path d="M11 15 47 11 51 41 20 49 9 32z" fill="none" stroke="#181713" stroke-width="1.8"/><path d="M17 22c7 5 15 5 23 0M17 32c7 5 15 5 23 0" stroke="#181713" stroke-width="2.4" fill="none"/></svg>`,
-  tampinha:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<circle cx="30" cy="30" r="17" fill="url(#h)" stroke="#181713" stroke-width="1.6"/><circle cx="30" cy="30" r="10" fill="none" stroke="#181713" stroke-width="1.4"/></svg>`,
-  vidro:`<svg viewBox="0 0 60 60" width="100%"><path d="M16 11 45 20 38 47 13 40z" fill="none" stroke="#181713" stroke-width="1.6" stroke-dasharray="5 3"/><path d="M21 18l15 6" stroke="#181713" stroke-width="1.6"/></svg>`,
-  telha:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<path d="M9 23h42v15a21 7 0 0 1-42 0z" fill="url(#h)" stroke="#181713" stroke-width="1.6"/><ellipse cx="30" cy="23" rx="21" ry="7" fill="none" stroke="#181713" stroke-width="1.6"/></svg>`,
-  seixo:`<svg viewBox="0 0 60 60" width="100%"><ellipse cx="30" cy="32" rx="20" ry="15" fill="none" stroke="#181713" stroke-width="1.6"/><path d="M16 28c5-4 12-5 19-2" stroke="#181713" stroke-width="1.1" fill="none"/></svg>`,
-
-  frag:()=>`<svg viewBox="0 0 60 60" width="100%"><path d="M9 20 30 7 53 18 46 45 21 51 7 36z" fill="#9B3620" stroke="#181713" stroke-width="1.8"/><path d="M9 20 30 7 53 18" fill="none" stroke="#E0DCCC" stroke-width="2.6"/><path d="M17 30h26M19 38h22" stroke="#181713" stroke-width="2"/></svg>`,
-  frag4:`<svg viewBox="0 0 60 60" width="100%"><path d="M11 15 30 6 51 17 45 46 20 51 8 33z" fill="#181713" stroke="#181713" stroke-width="1.8"/><path d="M18 27h26M20 36h20" stroke="#E0DCCC" stroke-width="2.2"/></svg>`,
-
-  check:`<g class="mark"><rect x="2" y="2" width="56" height="56" fill="none" stroke="#9B3620" stroke-width="3"/><path d="M14 31l10 11 22-24" fill="none" stroke="#9B3620" stroke-width="4.5" stroke-linecap="square"/></g>`
+const HATCH=`<defs><pattern id="h" width="4" height="4" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="4" stroke="#16150F" stroke-width="1.4"/></pattern></defs>`;
+const ART={
+ lasca:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<path d="M30 5 49 24 42 53 17 51 7 25z" fill="none" stroke="#16150F" stroke-width="1.8"/><path d="M30 5 42 53 17 51z" fill="url(#h)" opacity=".55"/><path d="M30 5v48M7 25h42" stroke="#16150F" stroke-width=".8"/></svg>`,
+ conta:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<circle cx="30" cy="30" r="20" fill="none" stroke="#16150F" stroke-width="1.8"/><circle cx="30" cy="30" r="20" fill="url(#h)" opacity=".35"/><circle cx="30" cy="30" r="6.5" fill="#16150F"/></svg>`,
+ cachimbo:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<path d="M13 42c0-10 6-16 13-16h6v11h-5c-4 0-6 3-6 8z" fill="url(#h)" stroke="#16150F" stroke-width="1.6"/><path d="M32 21h16v7H32z" fill="none" stroke="#16150F" stroke-width="1.6"/></svg>`,
+ conta2:`<svg viewBox="0 0 60 60" width="100%"><circle cx="30" cy="30" r="15" fill="#16150F"/><circle cx="30" cy="30" r="4.5" fill="#E0DCCC"/><path d="M20 21c4-3 12-4 18-1" stroke="#E0DCCC" stroke-width="2" fill="none" opacity=".8"/></svg>`,
+ enxada:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<path d="M15 17h30l-4 24H19z" fill="url(#h)" stroke="#16150F" stroke-width="1.7"/><path d="M21 41h18l-3 9H24z" fill="#16150F"/></svg>`,
+ parede:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<rect x="5" y="19" width="23" height="12" fill="url(#h)" stroke="#16150F" stroke-width="1.4"/><rect x="31" y="19" width="24" height="12" fill="none" stroke="#16150F" stroke-width="1.4"/><rect x="5" y="34" width="31" height="12" fill="none" stroke="#16150F" stroke-width="1.4"/><rect x="39" y="34" width="16" height="12" fill="url(#h)" stroke="#16150F" stroke-width="1.4"/></svg>`,
+ faianca:`<svg viewBox="0 0 60 60" width="100%"><path d="M11 15 47 11 51 41 20 49 9 32z" fill="none" stroke="#16150F" stroke-width="1.8"/><path d="M17 22c7 5 15 5 23 0M17 32c7 5 15 5 23 0" stroke="#16150F" stroke-width="2.4" fill="none"/></svg>`,
+ tampinha:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<circle cx="30" cy="30" r="17" fill="url(#h)" stroke="#16150F" stroke-width="1.6"/><circle cx="30" cy="30" r="10" fill="none" stroke="#16150F" stroke-width="1.4"/></svg>`,
+ vidro:`<svg viewBox="0 0 60 60" width="100%"><path d="M16 11 45 20 38 47 13 40z" fill="none" stroke="#16150F" stroke-width="1.6" stroke-dasharray="5 3"/><path d="M21 18l15 6" stroke="#16150F" stroke-width="1.6"/></svg>`,
+ telha:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<path d="M9 23h42v15a21 7 0 0 1-42 0z" fill="url(#h)" stroke="#16150F" stroke-width="1.6"/><ellipse cx="30" cy="23" rx="21" ry="7" fill="none" stroke="#16150F" stroke-width="1.6"/></svg>`,
+ seixo:`<svg viewBox="0 0 60 60" width="100%"><ellipse cx="30" cy="32" rx="20" ry="15" fill="none" stroke="#16150F" stroke-width="1.6"/><path d="M16 28c5-4 12-5 19-2" stroke="#16150F" stroke-width="1.1" fill="none"/></svg>`,
+ osso:`<svg viewBox="0 0 60 60" width="100%">${HATCH}<path d="M14 38c-5 0-7-7-2-9 1-5 8-6 10-2l14-6c1-5 9-6 11-1 5 0 6 8 1 9-1 5-8 6-10 2l-14 6c-1 5-9 6-10 1z" fill="url(#h)" stroke="#16150F" stroke-width="1.6"/></svg>`,
+ frag:`<svg viewBox="0 0 60 60" width="100%"><path d="M9 20 30 7 53 18 46 45 21 51 7 36z" fill="#9B3620" stroke="#16150F" stroke-width="1.8"/><path d="M9 20 30 7 53 18" fill="none" stroke="#E0DCCC" stroke-width="2.6"/><path d="M17 30h26M19 38h22" stroke="#16150F" stroke-width="2"/></svg>`,
+ frag4:`<svg viewBox="0 0 60 60" width="100%"><path d="M11 15 30 6 51 17 45 46 20 51 8 33z" fill="#C98A2E" stroke="#E0DCCC" stroke-width="1.8"/><path d="M18 27h26M20 36h20" stroke="#16150F" stroke-width="2.2"/></svg>`,
+ check:`<g class="mark"><rect x="2" y="2" width="56" height="56" fill="none" stroke="#9B3620" stroke-width="3"/><path d="M14 31l10 11 22-24" fill="none" stroke="#9B3620" stroke-width="4.5" stroke-linecap="square"/></g>`
 };
 
-/* ====== DIÁLOGO ====== */
-const dlg=$("#dlg"), dline=$("#dline"), cur=$("#cur"), stage=$("#stage");
-let queue=[], typing=false, after=null, timer=null, curText="";
-const lock=v=>{ stage.style.pointerEvents = v ? "none" : ""; };
-function say(lines,cb){
-  if(after && !cb) return;                 // comentário avulso nunca engole transição pendente
-  queue=lines.slice(); after=cb||null;
-  dlg.classList.remove("hidden"); lock(true); next();
+/* ====== CADERNO — note() nao trava, say() trava ====== */
+const cad=$("#cad"), cline=$("#cline"), cur=$("#cur"), stage=$("#stage");
+let queue=[],typing=false,after=null,timer=null,curText="",blocking=false;
+const lock=v=>{stage.style.pointerEvents=v?"none":"";};
+function render(t,i){ cline.textContent=t.slice(0,i); cline.appendChild(cur); }
+function type(t,done){
+  curText=t; typing=true; cur.classList.remove("on");
+  if(REDUCED){ render(t,t.length); typing=false; cur.classList.add("on"); done&&done(); return; }
+  let i=0; clearInterval(timer);
+  timer=setInterval(()=>{ render(curText,++i);
+    if(i>=curText.length){ clearInterval(timer); typing=false; cur.classList.add("on"); done&&done(); }
+  },18);
 }
-function next(){
-  if(typing){ done(); return; }
+/* fala ambiente: aparece, nao trava, nao engole transicao */
+function note(t){ if(blocking) return; clearInterval(timer); type(t); }
+/* beat de virada: trava a cena, avanca por clique */
+function say(lines,cb){
+  blocking=true; queue=lines.slice(); after=cb||null;
+  cad.classList.add("block"); lock(true); step();
+}
+function step(){
+  if(typing){ clearInterval(timer); render(curText,curText.length); typing=false; cur.classList.add("on"); return; }
   if(!queue.length){
-    dlg.classList.add("hidden"); lock(false);
-    const f=after; after=null; if(f) f(); return;
+    blocking=false; cad.classList.remove("block"); lock(false);
+    const f=after; after=null; f&&f(); return;
   }
   type(queue.shift());
 }
-function type(t){
-  curText=t; typing=true; cur.classList.remove("on");
-  dline.innerHTML=""; dline.appendChild(cur);
-  if(REDUCED){ done(); return; }
-  let i=0; clearInterval(timer);
-  timer=setInterval(()=>{ dline.textContent=curText.slice(0,++i); dline.appendChild(cur);
-    if(i>=curText.length) done(); },20);
-}
-function done(){ clearInterval(timer); dline.textContent=curText; dline.appendChild(cur); typing=false; cur.classList.add("on"); }
-dlg.addEventListener("click",next);
-addEventListener("keydown",e=>{ if((e.key===" "||e.key==="Enter")&&!dlg.classList.contains("hidden")){e.preventDefault();next();} });
+cad.addEventListener("click",()=>{ if(blocking) step(); });
+addEventListener("keydown",e=>{ if(blocking&&(e.key===" "||e.key==="Enter")){e.preventDefault();step();} });
 
 /* ====== ETIQUETA ====== */
 const cardwrap=$("#cardwrap");
 function showCard(o,cb){
-  cardwrap.innerHTML=`<div class="card">
-    <div class="bar"><span>ACHADO</span><span>${o.code}</span></div>
+  const neg=o.neg?" neg":"";
+  const integ = o.integ!=null
+    ? `<div class="integ ${o.integ>=95?"ok":"bad"}">Estado <i>${integLabel(o.integ)}</i></div>` : "";
+  cardwrap.innerHTML=`<div class="card${neg}">
+    <div class="bar"><span>Achado</span><b>${o.code}</b></div>
     <div class="mid">
       <div class="fig">${o.art}</div>
       <div class="meta"><h3>${o.nome}</h3>
         <div class="kv">SÍTIO&nbsp;&nbsp;<b>${o.sitio}</b><br>NÍVEL&nbsp;&nbsp;<b>${o.nivel}</b><br>MAT.&nbsp;&nbsp;&nbsp;<b>${o.mat}</b></div>
       </div>
     </div>
-    <p>${o.texto}</p>
+    <p>${o.texto}</p>${integ}
     <div class="foot">Toque para arquivar ▸</div>
   </div>`;
-  cardwrap.classList.remove("hidden");
-  const close=()=>{cardwrap.classList.add("hidden");cardwrap.removeEventListener("click",close);if(cb)cb();};
-  setTimeout(()=>cardwrap.addEventListener("click",close),240);
+  cardwrap.classList.remove("hidden"); lock(true);
+  const close=()=>{cardwrap.classList.add("hidden");cardwrap.removeEventListener("click",close);
+    lock(false); cb&&cb();};
+  setTimeout(()=>cardwrap.addEventListener("click",close),220);
 }
 
-/* ====== NAVEGAÇÃO ====== */
+/* ====== NAVEGACAO ====== */
 const scenes=["intro","p1","p2","p3","final","book"];
 const go=id=>scenes.forEach(s=>$("#"+s).classList.toggle("hidden",s!==id));
 const setRec=(n,l)=>{$("#ctxNo").textContent=n;$("#ctxLoc").textContent=l;};
-const lightSlot=i=>document.querySelector(`.slot[data-c="${i}"]`).classList.add("on");
+const lightSlot=(i,cracked)=>{const el=document.querySelector(`.slot[data-c="${i}"]`);
+  el.classList.add("on"); if(cracked) el.classList.add("cracked");};
 const lightBand=i=>document.querySelector(`.band[data-b="${i}"]`).classList.add("on");
 
-/* ====== FASE 1 ====== */
-const G=8;
+/* ============================================================
+   FASE 1 · XINGO — pincel. A pressa quebra o que voce procura.
+   Velocidade do ponteiro vira dano permanente no fragmento.
+   ============================================================ */
+const G=10, SAFE=0.55;           // px/ms — acima disso, e pressa
 const P1=[
- {cx:.24,cy:.28,r:.155,art:ART.lasca,code:"SE-01",nome:"Lasca de quartzo",nivel:"−0,55 m",mat:"lítico",
+ {cx:.24,cy:.27,r:.155,art:ART.lasca,code:"SE-01",nome:"Lasca de quartzo",nivel:"−0,55 m",mat:"lítico",
   texto:"Alguém sentou aqui e fez isso com as mãos. Faz uns nove mil anos. A borda ainda corta."},
  {cx:.74,cy:.40,r:.155,art:ART.conta,code:"SE-02",nome:"Conta de colar",nivel:"−0,61 m",mat:"osso polido",
   texto:"Osso polido, furo no meio. Enfeite. A gente sempre quis se enfeitar."},
- {cx:.44,cy:.74,r:.16,art:ART.frag(),code:"SE-1208-A",nome:"Fragmento I",frag:true,nivel:"−0,72 m",mat:"cerâmica",
+ {cx:.44,cy:.74,r:.16,art:ART.frag,code:"SE-1208-A",nome:"Fragmento I",frag:"A",nivel:"−0,72 m",mat:"cerâmica",
   texto:"Borda de vaso. A argila não bate com nada do vale do São Francisco. Nada mesmo."}
 ];
-let cells=[],p1f=0;
+let cells=[],p1f=0,lastPt=null,lastT=0,spd=0,lastChip=0;
+const pfill=$("#pfill"),plab=$("#plab");
+
 function buildP1(){
   const grid=$("#p1grid"),under=$("#p1under");
+  grid.style.setProperty("--g",G);
   grid.innerHTML=""; under.querySelectorAll(".buried").forEach(e=>e.remove());
-  cells=[];p1f=0;$("#p1count").textContent="0";
-  P1.forEach(it=>{ it.done=false; it.cells=[];
+  cells=[];p1f=0;spd=0;lastPt=null;$("#p1count").textContent="0";
+  pfill.style.width="0%";pfill.classList.remove("hot");plab.textContent="firme";
+
+  P1.forEach(it=>{ it.done=false; it.cells=[]; it.integ=100; it.warned=false;
     const d=document.createElement("div"); d.className="buried";
     d.style.cssText=`left:${it.cx*100}%;top:${it.cy*100}%;width:23%;aspect-ratio:1/1`;
-    d.innerHTML=it.art; under.appendChild(d);
+    d.innerHTML=it.art; under.appendChild(d); it.node=d;
   });
   for(let i=0;i<G*G;i++){
     const c=document.createElement("div");c.className="cell";c.dataset.life="3";
     grid.appendChild(c);cells.push(c);
     const x=((i%G)+.5)/G,y=((i/G|0)+.5)/G;
-    P1.forEach(it=>{ if(Math.hypot(x-it.cx,y-it.cy)<=it.r) it.cells.push(i); });
+    c.dataset.own="";
+    P1.forEach((it,k)=>{ if(Math.hypot(x-it.cx,y-it.cy)<=it.r){ it.cells.push(i); c.dataset.own=k; } });
   }
-  let on=false;
-  const brush=el=>{ if(!el||!el.classList.contains("cell"))return;
-    let l=+el.dataset.life; if(l<=0)return; l--; el.dataset.life=l;
-    el.classList.remove("l2","l1","l0"); el.classList.add("l"+l); checkP1(); };
-  grid.onpointerdown=e=>{on=true;grid.setPointerCapture(e.pointerId);brush(e.target);};
-  grid.onpointermove=e=>{ if(on) brush(document.elementFromPoint(e.clientX,e.clientY)); };
-  grid.onpointerup=grid.onpointercancel=()=>on=false;
+
+  let down=false;
+  const brush=(el,fast)=>{
+    if(!el||!el.classList.contains("cell"))return;
+    let l=+el.dataset.life; if(l<=0)return;
+    l -= fast?2:1; l=Math.max(0,l);
+    el.dataset.life=l;
+    el.classList.remove("l2","l1","l0"); el.classList.add("l"+l);
+    if(fast && el.dataset.own!==""){
+      const now=performance.now();
+      if(now-lastChip>90){
+        lastChip=now;
+        const it=P1[+el.dataset.own];
+        if(!it.done){ it.integ=Math.max(35,it.integ-7); el.classList.add("scuff"); SFX.chip();
+          if(it.integ<95 && !it.warned){ it.warned=true; note("Devagar. Isso aí embaixo não aguenta pressa."); } }
+      }
+    } else SFX.scrape();
+    checkP1();
+  };
+  const at=e=>document.elementFromPoint(e.clientX,e.clientY);
+  const track=e=>{
+    const now=performance.now();
+    if(lastPt){
+      const d=Math.hypot(e.clientX-lastPt.x,e.clientY-lastPt.y), dt=Math.max(8,now-lastT);
+      spd = spd*.55 + (d/dt)*.45;
+    }
+    lastPt={x:e.clientX,y:e.clientY}; lastT=now;
+    const pct=clamp(spd/1.4,0,1)*100;
+    pfill.style.width=pct+"%";
+    const hot=spd>SAFE;
+    pfill.classList.toggle("hot",hot);
+    plab.textContent=hot?"pressa":"firme";
+    return hot;
+  };
+  grid.onpointerdown=e=>{down=true;grid.setPointerCapture(e.pointerId);
+    lastPt={x:e.clientX,y:e.clientY};lastT=performance.now();spd=0;brush(e.target,false);};
+  grid.onpointermove=e=>{ const hot=track(e); if(down) brush(at(e),hot); };
+  grid.onpointerup=grid.onpointercancel=()=>{down=false;lastPt=null;spd=0;
+    pfill.style.width="0%";pfill.classList.remove("hot");plab.textContent="firme";};
 }
 function checkP1(){
   P1.forEach(it=>{ if(it.done)return;
     const clean=it.cells.filter(i=>+cells[i].dataset.life===0).length;
-    if(clean/it.cells.length>=.7){ it.done=true;p1f++;$("#p1count").textContent=p1f;
-      showCard({...it,sitio:"Xingó, SE"},()=>{ if(it.frag){lightSlot(0);lightBand(0);} if(p1f===3) endP1(); });
+    if(clean/it.cells.length>=.7){
+      it.done=true;p1f++;$("#p1count").textContent=p1f; SFX.find();
+      if(it.frag) S.frag[it.frag].int=it.integ;
+      showCard({...it,sitio:"Xingó, SE",integ:it.integ},()=>{
+        if(it.frag){lightSlot(0,it.integ<95);lightBand(0);}
+        if(p1f===3) endP1();
+      });
     }});
 }
-const endP1=()=>say([
- "Não é daqui. Essa argila não é daqui de jeito nenhum.",
- "Vaso desse tipo não anda sozinho 508 quilômetros.",
- "Próximo código: AL. União dos Palmares."],startP2);
+function endP1(){
+  const dmg=S.frag.A.int<95;
+  say([
+   "Não é daqui. Essa argila não é daqui de jeito nenhum.",
+   dmg?"E eu lasquei a borda. Vinte anos e ainda tenho pressa."
+      :"Saiu inteira. Isso não acontece sempre.",
+   "Vaso desse tipo não anda sozinho 508 quilômetros.",
+   "Próximo código: AL. União dos Palmares."],startP2);
+}
 
-/* ====== FASE 2 ====== */
-const P2=[
- {x:22,y:24,art:ART.cachimbo,code:"AL-01",nome:"Caco de cachimbo",nivel:"−0,30 m",mat:"cerâmica",
+/* ============================================================
+   FASE 2 · SERRA DA BARRIGA — sondagem.
+   A mancha na superficie diz o que ha embaixo. Acoes sao finitas.
+   ============================================================ */
+const G2=6, BUDGET=14;
+const P2ITEMS=[
+ {art:ART.cachimbo,code:"AL-01",nome:"Caco de cachimbo",nivel:"−0,30 m",mat:"cerâmica",
   texto:"Barro modelado à mão, queimado por dentro. Alguém fumou isso até o fim."},
- {x:71,y:19,art:ART.conta2,code:"AL-02",nome:"Conta de vidro",nivel:"−0,26 m",mat:"vidro azul",
+ {art:ART.conta2,code:"AL-02",nome:"Conta de vidro",nivel:"−0,26 m",mat:"vidro azul",
   texto:"Veio de longe, trocada por alguma coisa. Aqui em cima também havia comércio."},
- {x:34,y:63,art:ART.enxada,code:"AL-03",nome:"Lâmina de enxada",nivel:"−0,44 m",mat:"ferro",
+ {art:ART.enxada,code:"AL-03",nome:"Lâmina de enxada",nivel:"−0,44 m",mat:"ferro",
   texto:"Gasta até quase sumir. Isso aqui trabalhou muito, e trabalhou pra si."},
- {x:80,y:72,art:ART.parede,code:"AL-04",nome:"Alicerce de pedra",nivel:"−0,50 m",mat:"pedra seca",
+ {art:ART.parede,code:"AL-04",nome:"Alicerce de pedra",nivel:"−0,50 m",mat:"pedra seca",
   texto:"Pedra sobre pedra. Alguém levantou uma casa aqui e morou nela em paz por um tempo."},
- {x:52,y:42,art:ART.frag(),code:"AL-1208-B",nome:"Fragmento II",frag:true,nivel:"−0,38 m",mat:"cerâmica",
+ {art:ART.frag,code:"AL-1208-B",nome:"Fragmento II",frag:"B",nivel:"−0,38 m",mat:"cerâmica",
   texto:"Mesma pasta. Mesma queima. A quatrocentos quilômetros do primeiro."}
 ];
-let p2f=0,lens=null;
+let field=[],p2f=0,acts=BUDGET,mode="dig",p2over=false;
+const idx=(x,y)=>y*G2+x;
+function neighbors(i){
+  const x=i%G2,y=i/G2|0,out=[];
+  for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+    if(!dx&&!dy)continue; const nx=x+dx,ny=y+dy;
+    if(nx>=0&&nx<G2&&ny>=0&&ny<G2) out.push(idx(nx,ny));
+  } return out;
+}
 function buildP2(){
-  const sc=$("#p2scene"),veil=$("#p2veil"),ring=$("#p2ring");
-  p2f=0;$("#p2count").textContent="0";
-  let dec="";
-  [[12,42],[28,80],[44,12],[60,60],[88,38],[18,58],[66,86],[92,14],[38,34],[74,50],[8,70],[56,76],[26,46],[84,60],[46,90]]
-    .forEach(([x,y],i)=>{ const s=6+(i%4)*3,r=(i*47)%360,c=["#4E2314","#6B3A22","#331B10","#5A4426","#3E2C18"][i%5];
-      dec+=`<div style="position:absolute;left:${x}%;top:${y}%;width:${s}%;aspect-ratio:1/1;transform:translate(-50%,-50%) rotate(${r}deg);background:${c};border-radius:${i%3?"46% 54% 38% 62%":"50%"}"></div>`; });
-  sc.innerHTML=`<div style="position:absolute;inset:0;background:
-      repeating-linear-gradient(112deg,rgba(0,0,0,.16) 0 2px,transparent 2px 10px),
-      radial-gradient(88% 70% at 30% 20%,#7A3520 0%,#63291A 46%,#3E1A0E 100%)"></div>
-    <div style="position:absolute;inset:0;background:
-      radial-gradient(circle at 15% 78%,rgba(48,60,42,.8) 0 14%,transparent 15%),
-      radial-gradient(circle at 62% 30%,rgba(40,52,36,.75) 0 11%,transparent 12%),
-      radial-gradient(circle at 88% 84%,rgba(52,66,44,.75) 0 13%,transparent 14%),
-      radial-gradient(circle at 40% 95%,rgba(42,56,38,.75) 0 12%,transparent 13%)"></div>${dec}`;
-  P2.forEach(it=>{ it.done=false;
-    const d=document.createElement("div");d.className="target";
-    d.style.cssText=`left:${it.x}%;top:${it.y}%;width:17%;aspect-ratio:1/1;z-index:5`;
-    d.innerHTML=it.art.replace("</svg>",ART.check+"</svg>");
-    d.onclick=()=>hitP2(it,d); sc.appendChild(d); it.el=d; });
-  const move=e=>{ const r=veil.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
-    veil.style.setProperty("--lx",x+"px");veil.style.setProperty("--ly",y+"px");
-    ring.style.left=x+"px";ring.style.top=y+"px"; lens={x,y};
-    $("#p2read").textContent=`N ${(1024+ (r.height-y)/r.height*8).toFixed(1).replace(".",",")} · E ${(512+x/r.width*8).toFixed(1).replace(".",",")}`; };
-  veil.onpointermove=move;
-  veil.onpointerdown=e=>{veil.setPointerCapture(e.pointerId);move(e);};
-  veil.onclick=e=>{ const r=veil.getBoundingClientRect();
-    const cx=(e.clientX-r.left)/r.width*100, cy=(e.clientY-r.top)/r.height*100;
-    for(const it of P2){ if(it.done)continue;
-      const dx=(it.x-cx)/100*r.width,dy=(it.y-cy)/100*r.height;
-      if(Math.hypot(dx,dy)<r.width*.11){ hitP2(it,it.el); return; } } };
-}
-function hitP2(it,el){
-  if(it.done)return;
-  const r=$("#p2veil").getBoundingClientRect();
-  if(lens){ const ix=it.x/100*r.width,iy=it.y/100*r.height;
-    if(Math.hypot(lens.x-ix,lens.y-iy)>92){ say(["Não enxergo nada daí. Preciso chegar a lupa mais perto."]); return; } }
-  it.done=true; if(el) el.classList.add("got");
-  p2f++;$("#p2count").textContent=p2f;
-  showCard({...it,sitio:"S. da Barriga, AL"},()=>{ if(it.frag){lightSlot(1);lightBand(1);} if(p2f===5) endP2(); });
-}
-const endP2=()=>say([
- "Duas peças. Dois estados. A mesma argila nos dois.",
- "E eu andando pro norte sem ter decidido isso.",
- "Falta o PE. Recife."],startP3);
+  const grid=$("#p2grid"); grid.style.setProperty("--g2",G2);
+  grid.innerHTML=""; p2f=0; acts=BUDGET; mode="dig"; p2over=false;
+  $("#p2count").textContent="0"; $("#p2acts").textContent=acts;
+  $("#tDig").classList.add("on"); $("#tProbe").classList.remove("on");
 
-/* ====== FASE 3 ====== */
-const P3=[
- {x:32,y:30,art:ART.faianca,good:true,code:"PE-01",nome:"Caco de faiança",nivel:"−1,05 m",mat:"faiança",
-  texto:"Azul de cobalto sobre pasta clara. Isso aqui é do tempo em que o Recife falava holandês."},
- {x:66,y:62,art:ART.cachimbo,good:true,code:"PE-02",nome:"Cachimbo de caulim",nivel:"−1,05 m",mat:"caulim",
-  texto:"Branco, fininho, importado. O barranco do rio está cheio deles. Fumaram olhando essa mesma água."},
- {x:48,y:47,art:ART.frag(),good:true,frag:true,code:"PE-1208-C",nome:"Fragmento III",nivel:"−1,20 m",mat:"cerâmica",
-  texto:"O terceiro. Mesma pasta dos outros dois. Agora não tem mais como ser acaso."},
- {x:24,y:66,art:ART.tampinha,good:false,quip:"Tampinha. O rio devolve tudo que a cidade joga nele."},
- {x:70,y:26,art:ART.vidro,good:false,quip:"Vidro de garrafa. Não tem nem trinta anos."},
- {x:52,y:76,art:ART.telha,good:false,quip:"Telha de ontem. O Recife não para de se refazer em cima de si mesmo."},
- {x:28,y:48,art:ART.seixo,good:false,quip:"Pedra é pedra. Nem tudo que aparece quer dizer alguma coisa."},
- {x:74,y:44,art:ART.seixo,good:false,quip:"Mais uma pedra. Paciência é metade do serviço."}
-];
-let p3f=0,shaken=false;
-function buildP3(){
-  const s=$("#sieve");s.innerHTML="";p3f=0;shaken=false;
-  $("#p3lab").textContent="Peneira ▸ sacuda";$("#p3count").textContent="0";
-  $("#shakeBtn").textContent="Sacudir ▸";
-  P3.forEach(it=>{ it.done=false;
-    const d=document.createElement("div");d.className="grit dirty";
-    d.style.cssText=`left:${it.x}%;top:${it.y}%;width:19%;aspect-ratio:1/1`;
-    d.innerHTML=it.art.replace("</svg>",ART.check+"</svg>");
-    d.onclick=()=>hitP3(it,d); s.appendChild(d); });
-  for(let i=0;i<14;i++){
-    const d=document.createElement("div");d.className="grit mud";
-    d.style.cssText=`left:${18+Math.random()*64}%;top:${18+Math.random()*64}%;width:${5+Math.random()*6}%;aspect-ratio:1/1;background:#2E2317;border-radius:48% 52% 40% 60%;pointer-events:none`;
-    s.appendChild(d);
+  field=Array.from({length:G2*G2},()=>({item:null,dug:false,probed:false}));
+  const spots=[...Array(G2*G2).keys()].sort(()=>Math.random()-.5).slice(0,5);
+  P2ITEMS.forEach((it,k)=>{ field[spots[k]].item={...it}; });
+
+  field.forEach((f,i)=>{
+    f.adj=neighbors(i).filter(n=>field[n].item).length;
+    const d=document.createElement("div"); d.className="sq";
+    const st=document.createElement("div"); st.className="stain";
+    st.style.opacity = f.adj===0?0 : f.adj<=2?.34:.62;
+    d.appendChild(st);
+    d.onclick=()=>actP2(i,d);
+    grid.appendChild(d); f.el=d;
+  });
+}
+$$(".tool").forEach(t=>t.onclick=()=>{
+  mode=t.dataset.t; $$(".tool").forEach(x=>x.classList.toggle("on",x===t));
+  $("#p2lab").textContent = mode==="dig"?"Escolha onde abrir":"Sonde para ler o entorno";
+});
+function spend(){ acts--; $("#p2acts").textContent=acts; }
+function checkBudget(){ if(acts<=0 && !p2over) outOfActs(); }
+function actP2(i,el){
+  const f=field[i];
+  if(acts<=0||f.dug) return;
+  if(mode==="probe"){
+    if(f.probed){ note("Já sondei aí."); return; }
+    f.probed=true; el.classList.add("probed");
+    el.insertAdjacentHTML("beforeend",`<span class="num">${f.adj}</span>`);
+    SFX.probe(); spend(); checkBudget(); return;
+  }
+  f.dug=true; el.classList.add("dug");
+  if(!f.item){ el.classList.add("empty"); SFX.empty(); note(pick(EMPTY)); spend(); checkBudget(); return; }
+  const it=f.item; el.classList.add("hit");
+  el.insertAdjacentHTML("beforeend",`<div class="art">${it.art}</div>`);
+  p2f++; $("#p2count").textContent=p2f; SFX.find(); spend();
+  showCard({...it,sitio:"S. da Barriga, AL"},()=>{
+    if(it.frag){ lightSlot(1,false); lightBand(1); }
+    if(p2f===5) endP2(); else checkBudget();
+  });
+}
+const EMPTY=["Nada. Faz parte.","Estéril. Anota e segue.",
+  "Vazio. Metade do serviço é cavar em falso.","Nada aqui. A mancha mentiu."];
+const pick=a=>a[Math.random()*a.length|0];
+function outOfActs(){
+  const fragLeft=field.find(f=>f.item&&!f.dug&&f.item.frag);
+  if(fragLeft){
+    say(["Acabou a estação. Tenho que fechar a área.",
+         "Mas esse aqui eu não deixo no chão."],()=>{
+      fragLeft.dug=true; fragLeft.el.classList.add("dug","hit");
+      fragLeft.el.insertAdjacentHTML("beforeend",`<div class="art">${fragLeft.item.art}</div>`);
+      p2f++; $("#p2count").textContent=p2f; SFX.find();
+      showCard({...fragLeft.item,sitio:"S. da Barriga, AL"},()=>{
+        lightSlot(1,false); lightBand(1);
+        S.lost += field.filter(f=>f.item&&!f.dug).length; endP2();
+      });
+    });
+  } else if(p2f<5){
+    S.lost += field.filter(f=>f.item&&!f.dug).length; endP2();
   }
 }
-$("#shakeBtn").onclick=()=>{
-  const s=$("#sieve");s.classList.remove("shaking");void s.offsetWidth;s.classList.add("shaking");
-  if(shaken)return; shaken=true;
-  setTimeout(()=>{
-    s.querySelectorAll(".mud").forEach(m=>m.classList.add("gone"));
-    s.querySelectorAll(".grit:not(.mud)").forEach(g=>g.classList.remove("dirty"));
-    $("#p3lab").textContent="Toque no que for artefato";
-    $("#shakeBtn").textContent="Sacudir de novo ▸";
-    say(["Pronto. Agora dá pra ver o que é o quê.","Três coisas aqui são de verdade. O resto é o que o rio trouxe."]);
-  },400);
-};
-function hitP3(it,el){
-  if(p3f>=3) return;
-  if(!shaken){ say(["Sujo desse jeito eu não distingo nada. Sacode primeiro."]); return; }
-  if(it.done)return;
-  if(!it.good){ say([it.quip]); return; }
-  it.done=true;el.classList.add("picked");p3f++;$("#p3count").textContent=p3f;
-  showCard({...it,sitio:"T. Capibaribe, PE"},()=>{ if(it.frag){lightSlot(2);lightBand(2);} if(p3f===3) endP3(); });
+function endP2(){
+  if(p2over) return; p2over=true;
+  const miss=field.filter(f=>f.item&&!f.dug).length;
+  say([
+   "Duas peças. Dois estados. A mesma argila nos dois.",
+   miss?`Fica ${miss===1?"uma coisa":"coisas"} nessa encosta que eu não tirei. Sempre fica.`
+       :"Limpei a encosta inteira. Não deixei nada pra trás.",
+   "E eu andando pro norte sem ter decidido isso.",
+   "Falta o PE. Recife."],startP3);
 }
-const endP3=()=>say([
- "Três fragmentos. Vou montar isso agora.",
- "Se encaixarem, eu não sei mais o que penso."],startFinal);
 
-/* ====== FINAL — convenção de desenho de cerâmica:
-   metade esquerda = seção (cheia), metade direita = vista (contorno) ====== */
+/* ============================================================
+   FASE 3 · TERRACO CAPIBARIBE — peneira.
+   A agua corre. O que voce nao pegar, o rio leva.
+   ============================================================ */
+const REFUSE=[
+ {art:ART.tampinha,quip:"Tampinha. O rio devolve tudo que a cidade joga nele."},
+ {art:ART.vidro,quip:"Vidro de garrafa. Não tem nem trinta anos."},
+ {art:ART.telha,quip:"Telha de ontem. O Recife não para de se refazer em cima de si mesmo."},
+ {art:ART.seixo,quip:"Pedra é pedra. Nem tudo que aparece quer dizer alguma coisa."},
+ {art:ART.seixo,quip:"Mais uma pedra. Paciência é metade do serviço."},
+ {art:ART.osso,quip:"Osso de boi. Alguém almoçou aqui. Faz uns dez anos."},
+ {art:ART.tampinha,quip:"Outra tampinha. O Capibaribe é meio lixeira, meio arquivo."}
+];
+const GOOD=[
+ {art:ART.faianca,code:"PE-01",nome:"Caco de faiança",nivel:"−1,05 m",mat:"faiança",
+  texto:"Azul de cobalto sobre pasta clara. Isso aqui é do tempo em que o Recife falava holandês."},
+ {art:ART.cachimbo,code:"PE-02",nome:"Cachimbo de caulim",nivel:"−1,05 m",mat:"caulim",
+  texto:"Branco, fininho, importado. O barranco do rio está cheio deles. Fumaram olhando essa mesma água."},
+ {art:ART.frag,code:"PE-1208-C",nome:"Fragmento III",frag:"C",nivel:"−1,20 m",mat:"cerâmica",
+  texto:"O terceiro. Mesma pasta dos outros dois. Agora não tem mais como ser acaso."}
+];
+const WAVES=[{dur:9500,n:5},{dur:8500,n:6},{dur:7500,n:6}];
+let wave=0,p3f=0,p3lost=0,p3run=false,p3paused=false,p3items=[],rafId=0;
+
+function buildP3(){
+  $("#sieve").innerHTML=""; wave=0;p3f=0;p3lost=0;p3run=false;p3paused=false;
+  $("#p3count").textContent="0"; $("#p3lost").textContent="0";
+  $("#p3lab").textContent="Onda 1 de 3";
+  $("#shakeBtn").textContent="Abrir a água ▸"; $("#shakeBtn").disabled=false;
+  $("#wfill").style.width="100%"; $("#wfill").classList.remove("low");
+}
+function spawn(o){
+  const s=$("#sieve");
+  const d=document.createElement("div"); d.className="grit";
+  const x=14+Math.random()*72, y=16+Math.random()*68;
+  d.style.cssText=`left:${x}%;top:${y}%;width:17%;aspect-ratio:1/1`;
+  d.innerHTML=(o.good?`<div class="halo"></div>`:"")+o.art;
+  d.onclick=()=>grab(o,d);
+  s.appendChild(d); o.el=d; p3items.push(o);
+}
+function grab(o,d){
+  if(!p3run||o.taken)return; o.taken=true;
+  if(!o.good){ d.classList.add("kept"); S.refuse++; note(o.quip); SFX.empty(); return; }
+  d.classList.add("kept"); p3f++; $("#p3count").textContent=p3f; SFX.find();
+  p3paused=true;
+  showCard({...o,sitio:"T. Capibaribe, PE"},()=>{
+    p3paused=false;
+    if(o.frag){ lightSlot(2,false); lightBand(2); }
+  });
+}
+function runWave(){
+  const w=WAVES[wave];
+  p3items=[]; p3run=true;
+  $("#p3lab").textContent=`Onda ${wave+1} de 3`;
+  $("#shakeBtn").disabled=true; $("#shakeBtn").textContent="Peneirando…";
+  const s=$("#sieve"); s.classList.remove("shaking"); void s.offsetWidth; s.classList.add("shaking");
+  SFX.water();
+
+  // 1 artefato garantido por onda + refugo
+  const pool=[{...GOOD[wave],good:true}];
+  const rf=[...REFUSE].sort(()=>Math.random()-.5).slice(0,w.n-1);
+  rf.forEach(r=>pool.push({...r,good:false}));
+  pool.sort(()=>Math.random()-.5);
+
+  pool.forEach((o,i)=>setTimeout(()=>{ if(p3run) spawn(o); }, 150+i*(w.dur*.55/pool.length)));
+
+  let elapsed=0,last=performance.now();
+  const tick=now=>{
+    if(!p3run) return;
+    const dt=now-last; last=now;
+    if(!p3paused) elapsed+=dt;
+    const left=clamp(1-elapsed/w.dur,0,1);
+    $("#wfill").style.width=(left*100)+"%";
+    $("#wfill").classList.toggle("low",left<.28);
+    if(elapsed>=w.dur){ endWave(); return; }
+    rafId=requestAnimationFrame(tick);
+  };
+  last=performance.now(); rafId=requestAnimationFrame(tick);
+}
+function endWave(){
+  p3run=false; cancelAnimationFrame(rafId);
+  let lostHere=0;
+  p3items.forEach(o=>{ if(!o.taken){ o.el.classList.add("wash"); if(o.good) lostHere++; } });
+  p3lost+=lostHere; $("#p3lost").textContent=p3lost;
+  SFX.water();
+  setTimeout(()=>{
+    $("#sieve").querySelectorAll(".wash,.kept").forEach(e=>e.remove());
+    wave++;
+    if(wave>=WAVES.length){ $("#shakeBtn").disabled=true; $("#shakeBtn").textContent="—"; endP3(); return; }
+    $("#shakeBtn").disabled=false; $("#shakeBtn").textContent="Abrir a água ▸";
+    $("#p3lab").textContent=`Onda ${wave+1} de 3`;
+    $("#wfill").style.width="100%"; $("#wfill").classList.remove("low");
+    if(lostHere) note("Perdi uma. O rio não devolve.");
+    else note("Peguei o que prestava. Abre de novo.");
+  },520);
+}
+$("#shakeBtn").onclick=()=>{ if(!p3run && wave<WAVES.length) runWave(); };
+
+function endP3(){
+  say([
+   p3lost?"Deixei coisa ir embora nessa água. Não dá pra pegar tudo."
+         :"Não perdi nada pro rio. Hoje foi um bom dia.",
+   "Três fragmentos. Vou montar isso agora.",
+   "Se encaixarem, eu não sei mais o que penso."],startFinal);
+}
+
+/* ============================================================
+   FINAL — convencao de desenho de ceramica:
+   metade esquerda = secao (cheia), metade direita = vista (contorno)
+   ============================================================ */
 const VP="M56 30c-6-4-9-10-9-16h72c0 6-3 12-9 16 16 9 27 27 27 49 0 33-18 58-18 87 0 15 7 24 7 37 0 11-16 18-43 18s-43-7-43-18c0-13 7-22 7-37 0-29-18-54-18-87 0-22 11-40 27-49z";
+const CRACK=["M60 34l14 12-9 9 12 10","M52 70l16 9-7 11 14 8","M58 124l13 11-8 10 15 7"];
 function buildVase(){
-  const b=[[0,62],[62,116],[116,170],[170,232]];
+  const b=[[0,62],[62,116],[116,170],[170,232]], keys=["A","B","C",null];
   let defs=`<clipPath id="lh"><rect x="0" y="0" width="85" height="232"/></clipPath>`,g="";
   b.forEach((v,i)=>{
     defs+=`<clipPath id="c${i}"><rect x="-10" y="${v[0]}" width="190" height="${v[1]-v[0]}"/></clipPath>`;
-    const last=i===3;
-    g+=`<g class="shard" id="sh${i}" clip-path="url(#c${i})">
-        <g clip-path="url(#lh)"><path d="${VP}" fill="#181713"/></g>
-        <path d="${VP}" fill="none" stroke="#181713" stroke-width="2"/>
-        <path d="M22 104h126M30 146h110" stroke="#181713" stroke-width="2.4" clip-path="url(#lh)" opacity="0"/>
+    const k=keys[i], dmg = k && S.frag[k].int<95;
+    g+=`<g class="shard" id="sh${i}" clip-path="url(#c${i})"${i===3?' style="display:none"':''}>
+        <g clip-path="url(#lh)"><path d="${VP}" fill="#16150F"/></g>
+        <path d="${VP}" fill="none" stroke="#16150F" stroke-width="2"/>
+        ${dmg?`<path d="${CRACK[i]}" fill="none" stroke="#9B3620" stroke-width="2.2" stroke-linecap="round"/>`:""}
       </g>`;
-    if(last) g=g.replace('id="sh3"','id="sh3" style="display:none"');
   });
-  // fantasma tracejado da base que falta
-  g=`<g id="ghost"><path d="${VP}" fill="none" stroke="#181713" stroke-width="1.6" stroke-dasharray="5 4" clip-path="url(#c3)"/></g>`+g;
-  g+=`<g id="deco" opacity="0"><path d="M24 100h122M32 142h106" stroke="#C7C2AF" stroke-width="3" clip-path="url(#lh)"/></g>`;
-  g+=`<g font-family="Courier Prime,monospace" font-size="9" fill="#181713">
-        <path d="M8 224h34M8 221v6M25 221v6M42 221v6" stroke="#181713" stroke-width="1.2" fill="none"/>
+  g=`<g id="ghost"><path d="${VP}" fill="none" stroke="#16150F" stroke-width="1.6" stroke-dasharray="5 4" clip-path="url(#c3)"/></g>`+g;
+  g+=`<g id="deco" opacity="0"><path d="M24 100h122M32 142h106" stroke="#C98A2E" stroke-width="3" clip-path="url(#lh)"/></g>`;
+  g+=`<g font-family="Courier Prime,monospace" font-size="9" fill="#16150F">
+        <path d="M8 224h34M8 221v6M25 221v6M42 221v6" stroke="#16150F" stroke-width="1.2" fill="none"/>
         <text x="46" y="227">0 · 5 cm</text></g>`;
   $("#vase").innerHTML=`<defs>${defs}</defs>${g}`;
 }
 function startFinal(){
   setRec("CTX 04","Laboratório · remontagem");
-  go("final");buildVase();$("#codeline").innerHTML="";
-  const seat=i=>new Promise(r=>setTimeout(()=>{$("#sh"+i).classList.add("set");r();},REDUCED?60:720));
+  go("final"); $("#final").classList.remove("mel");
+  buildVase(); $("#codeline").innerHTML="";
+  const seat=i=>new Promise(r=>setTimeout(()=>{$("#sh"+i).classList.add("set");SFX.seat();r();},REDUCED?60:760));
   (async()=>{ await seat(0);await seat(1);await seat(2);
+    const dmg=["A","B","C"].filter(k=>S.frag[k].int<95).length;
     setTimeout(()=>say([
       "Encaixam.",
+      dmg?"Com trinca, mas encaixam. O que eu quebrei foi eu que quebrei."
+         :"Sem uma trinca. Nunca me saiu assim.",
       "Vinte anos nisso. Nunca vi peça de três sítios diferentes fechar assim.",
       "Só que falta a base. E essa não tá no chão."],showCodes),650);
   })();
@@ -750,50 +1082,83 @@ function showCodes(){
   cl.innerHTML=`<div><span>SE-<span class="hl">1208</span>-A</span><span>Xingó</span></div>
                 <div><span>AL-<span class="hl">1208</span>-B</span><span>S. da Barriga</span></div>
                 <div><span>PE-<span class="hl">1208</span>-C</span><span>T. Capibaribe</span></div>`;
-  cl.querySelectorAll("div").forEach((d,i)=>setTimeout(()=>d.classList.add("lit"),400+i*380));
+  cl.querySelectorAll("div").forEach((d,i)=>setTimeout(()=>{d.classList.add("lit");SFX.probe();},400+i*380));
   setTimeout(()=>say([
     "SE, doze zero oito. AL, doze zero oito. PE, doze zero oito.",
     "Doze de agosto.",
     "Não era erro de digitação. Era endereço."],showFrag4),2200);
 }
 function showFrag4(){
-  showCard({code:"FRAGMENTO IV",sitio:"Olinda, PE",nome:"Base",nivel:"superfície",mat:"—",art:ART.frag4,
+  showCard({code:"FRAGMENTO IV",sitio:"Olinda, PE",nome:"Base",nivel:"superfície",mat:"—",
+    art:ART.frag4,neg:true,
     texto:"Coletado no Terraço Capibaribe, Recife, em 12.08.2026. Procedência: Olinda. Estado: íntegro. Não estava enterrado."},()=>{
     $("#ghost").remove();
     const s=$("#sh3"); s.style.display=""; s.classList.add("set");
-    $("#deco").setAttribute("opacity","1");
-    lightBand(3); setRec("CTX 04","Laboratório · peça completa");
+    SFX.seat();
+    setTimeout(()=>{
+      $("#deco").setAttribute("opacity","1");
+      $("#final").classList.add("mel");   // o pote fecha. a unica cor quente do jogo.
+      SFX.mel();
+      lightBand(3); setRec("CTX 04","Laboratório · peça completa");
+    },420);
     setTimeout(()=>say([
       "A base não é de Recife. É de Olinda — do outro lado do rio.",
+      "O pote fechou.",
       "A gente passa a vida escavando pra achar coisa antiga.",
       "Como se valor fosse a mesma coisa que idade.",
-      "Não é."],()=>{ go("book"); setRec("CTX 04","Terraço Capibaribe · Recife, PE"); }),1300);
+      "Não é."],endBook),1500);
   });
 }
+function endBook(){
+  const dmg=["A","B","C"].filter(k=>S.frag[k].int<95);
+  const v=$("#verdict");
+  v.innerHTML=`<div class="flab">Estado da peça</div>
+    <div class="who" style="font-size:13px">${
+      dmg.length
+        ? `Remontada com ${dmg.length} fragmento${dmg.length>1?"s":""} trincado${dmg.length>1?"s":""}. `+
+          (S.lost||S.refuse?`Perdas em campo: ${S.lost+p3lost}.`:"Sem perdas em campo.")
+        : `Remontada sem trinca. `+(S.lost+p3lost?`Perdas em campo: ${S.lost+p3lost}.`:"Sem perdas em campo.")
+    }</div>`;
+  go("book"); setRec("CTX 04","Terraço Capibaribe · Recife, PE");
+  note("Registro encerrado.");
+}
 
-/* ====== ARRANQUE ====== */
+/* ============================================================
+   ARRANQUE
+   ============================================================ */
 function startP1(){ setRec("CTX 01","Xingó · Canindé de São Francisco, SE"); go("p1"); buildP1();
   say(["Xingó. Nove mil anos de gente enterrada aqui embaixo.",
-       "Calma na mão. Pincel, sempre. Quem tem pressa quebra o que veio buscar."]); }
+       "Pincel, sempre. E devagar — a barra embaixo mostra a minha mão.",
+       "Quem tem pressa quebra o que veio buscar."]); }
 function startP2(){ setRec("CTX 02","Serra da Barriga · União dos Palmares, AL"); go("p2"); buildP2();
   say(["Palmares. Quase cem anos de gente livre nessa encosta.",
-       "Esse chão não entrega nada de graça. Aqui é lupa e paciência."]); }
+       "Esse chão não entrega nada de graça. A mancha escura na superfície diz que tem coisa perto.",
+       "Sondar lê o entorno e diz quantas. Escavar tira. As duas custam.",
+       "Catorze ações. Depois disso a estação acaba."]); }
 function startP3(){ setRec("CTX 03","Terraço Capibaribe · Recife, PE"); go("p3"); buildP3();
   say(["Terraço Capibaribe. Em arqueologia isso é nome de acidente: o degrau que o rio deixa quando desce de nível.",
-       "E é onde a cidade sempre despejou tudo. Quatro séculos de Recife decantados num barranco.",
-       "Sedimento de rio não se escova. Se peneira."]); }
+       "Quatro séculos de Recife decantados num barranco.",
+       "Sedimento de rio não se escova. Se peneira — e a água não espera.",
+       "O que eu não pegar antes da água acabar, vai embora."]); }
 
-$("#startBtn").onclick=()=>{ setRec("CTX ——","Laboratório · Aracaju, SE");
+$("#startBtn").onclick=()=>{
+  ac(); startTheme(); setRec("CTX ——","Laboratório · Aracaju, SE");
   say(["Três fragmentos chegaram hoje. Sem remetente, sem carta, sem nada.",
        "Cerâmica. Não são do mesmo pote, mas se parecem demais pra ser coincidência.",
        "E os códigos: SE-1208-A. AL-1208-B. PE-1208-C.",
        "Um número errado, tudo bem. Os três iguais? Alguém digitou torto.",
        "Sergipe, Alagoas, Pernambuco. Sempre pro norte.",
        "Tudo bem. Vou começar por casa."],startP1); };
+
 $("#againBtn").onclick=()=>{
-  document.querySelectorAll(".slot").forEach(s=>s.classList.remove("on"));
-  document.querySelectorAll(".band").forEach(b=>b.classList.remove("on"));
-  setRec("CTX ——","Registro de escavação"); go("intro"); };
+  S.frag={A:{int:100},B:{int:100},C:{int:100}}; S.lost=0; S.refuse=0; p3lost=0;
+  $$(".slot").forEach(s=>s.classList.remove("on","cracked"));
+  $$(".band").forEach(b=>b.classList.remove("on"));
+  setRec("CTX ——","Registro de escavação"); go("intro");
+  note("Registro de escavação.");
+};
+
+note("Três fragmentos chegaram hoje.");
 </script>
 </body>
 </html>
