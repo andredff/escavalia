@@ -5,7 +5,10 @@
 > dois divergirem, o código é a fonte da verdade. Principais divergências:
 > Aliane é **Dra. em Arqueologia / responsável técnica**; as distâncias
 > foram acertadas (200 km Xingó→Palmares, 508 km Xingó→Recife, 5 km
-> Recife→Olinda); "argila" virou "pasta"; e a observação da ficha 04 mudou.
+> Recife→Olinda); "argila" virou "pasta"; a observação da ficha 04 mudou; e
+> **a premissa mudou**: não são os três fragmentos que chegam pelo correio,
+> são três *etiquetas de catálogo* sem caco junto. A v1 tinha um furo — ela
+> escavava peças que já estavam na mesa dela.
 
 Documento de referência extraído da versão 1 (`index.html`, arquivo único de 55KB).
 Serve de base para refazer do zero.
